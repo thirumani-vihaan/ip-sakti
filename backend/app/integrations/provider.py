@@ -14,6 +14,28 @@ class ProviderError(Exception):
         self.retryable = retryable
 
 
+class CircuitBreaker:
+    """Opens after `threshold` consecutive failures; closes on the next success."""
+
+    def __init__(self, threshold: int = 3):
+        self.threshold = threshold
+        self.failures = 0
+        self.open = False
+
+    def record_success(self) -> None:
+        self.failures = 0
+        self.open = False
+
+    def record_failure(self) -> None:
+        self.failures += 1
+        if self.failures >= self.threshold:
+            self.open = True
+
+    @property
+    def healthy(self) -> bool:
+        return not self.open
+
+
 @runtime_checkable
 class LLMProvider(Protocol):
     def generate(self, prompt: str, evidence: list[RetrievalHit]) -> list[Claim]:
