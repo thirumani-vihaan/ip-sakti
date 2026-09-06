@@ -41,8 +41,8 @@ Legend: risk = [low|med|HIGH|HIGHEST]; deps = tasks that must finish first.
 ## Wiring verification tracking (loop §2.4) — filled during T011 & re-checked each Phase-3 iteration
 | Dependency | Real factory reachable from build_app()? | Evidence |
 |---|---|---|
-| LLMProvider (GeminiLLM) | ⬜ | (grep + test) |
-| EmbeddingProvider (GeminiEmbeddings) | ⬜ | |
-| TranslationProvider (BhashiniTranslation) | ⬜ | |
-| VectorStore (ChromaVectorStore) | ⬜ | |
-| KeywordIndex (BM25Index) | ⬜ | |
+| LLMProvider (GeminiLLM) | OK | (grep + test) |
+| EmbeddingProvider (GeminiEmbeddings) | OK | |
+| TranslationProvider (BhashiniTranslation) | OK | |
+| VectorStore (ChromaVectorStore) | OK | |
+| KeywordIndex (BM25Index) | OK | |
