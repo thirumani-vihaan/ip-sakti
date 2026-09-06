@@ -74,7 +74,9 @@ def build_app(settings: Settings | None = None) -> FastAPI:
 
     app.state.settings = settings
     app.state.providers = {"llm": llm, "embeddings": emb, "translation": translation}
-    app.state.answer_service = AnswerService(retriever, llm, emb, settings.corpus_version)
+    app.state.answer_service = AnswerService(
+        retriever, llm, emb, settings.corpus_version, translation=translation
+    )
 
     from app.api.routes import abs_check as abs_routes
     from app.api.routes import chat as chat_routes

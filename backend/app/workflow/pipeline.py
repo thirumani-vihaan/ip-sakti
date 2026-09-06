@@ -13,6 +13,7 @@ from app.offline.cache import DemoCache
 from app.retrieval.hybrid import HybridRetriever
 from app.workflow.abstention import abstention_response
 from app.workflow.citation_validator import validate_claims
+from app.workflow.domain_router import abs_triggered, route
 from app.workflow.evidence_strength import score_strength
 from app.workflow.generation import generate_grounded
 from app.workflow.reference_resolver import extract_section_refs
@@ -40,6 +41,7 @@ class AnswerService:
         corpus_version: str = "v0",
         cache: Optional[DemoCache] = None,
         breaker: Optional[CircuitBreaker] = None,
+        translation: Optional[object] = None,
     ):
         self.retriever = retriever
         self.llm = llm
@@ -47,6 +49,45 @@ class AnswerService:
         self.corpus_version = corpus_version
         self.cache = cache
         self.breaker = breaker or CircuitBreaker()
+        self.translation = translation
+
+    def _domain_warnings(self, query: str) -> list[Warning]:
+        """Multi-label routing: disclose unevaluated domains, and always surface the
+        mandatory ABS notice when a biological-resource + commercial-use query triggers it."""
+        _, warnings = route(query)
+        if abs_triggered(query):
+            warnings = [
+                Warning(
+                    code="abs_mandatory",
+                    message="Access & Benefit Sharing (ABS) obligations likely apply: commercial use of a "
+                            "biological resource requires NBA/SBB approval under the Biological Diversity Act.",
+                )
+            ] + warnings
+        return warnings
+
+    def _localize(self, claims: list[Claim], language: str) -> tuple[list[Claim], list[Warning]]:
+        """Translate claim text into the requested language, preserving statute/section refs
+        verbatim. If translation is unavailable or would alter a legal reference, keep the
+        English text and disclose that with a warning (never serve altered legal text)."""
+        if not claims or not language or language == "en" or self.translation is None:
+            return claims, []
+        from app.i18n.translate import translate_preserving
+
+        out: list[Claim] = []
+        warnings: list[Warning] = []
+        failed = False
+        for c in claims:
+            try:
+                out.append(Claim(text=translate_preserving(self.translation, c.text, "en", language),
+                                 source_ids=c.source_ids))
+            except Exception:  # any provider/validation failure -> keep English text
+                out.append(c)
+                failed = True
+        if failed:
+            warnings.append(Warning(code="translation_skipped",
+                                    message=f"Some text could not be safely translated to '{language}'; "
+                                            "showing the original English to preserve legal references."))
+        return out, warnings
 
     def answer(self, req: ChatRequest) -> ChatResponse:
         as_of = req.as_of or date.today()
@@ -80,6 +121,8 @@ class AnswerService:
         if not valid:
             return abstention_response("unsupported", req, as_of, self.corpus_version, warnings)
 
+        valid, tr_warnings = self._localize(valid, req.language)
+        warnings = warnings + tr_warnings + self._domain_warnings(req.query)
         strength = score_strength(valid, sources, extract_section_refs(req.query))
         return ChatResponse(
             claims=valid, sources=sources, warnings=warnings,
@@ -101,8 +144,13 @@ class AnswerService:
         # top passages become claims that cite themselves -> grounded by construction
         claims = [Claim(text=h.text, source_ids=[h.evidence_id]) for h in hits[:3]]
         valid, sources, warnings = validate_claims(claims, hits)
-        strength = score_strength(valid, sources, extract_section_refs(req.query))
         warnings = warnings + [Warning(code=code, message=message)]
+        # Sensitive mode stays fully local: no external translation call.
+        if code != "sensitive_local":
+            valid, tr_warnings = self._localize(valid, req.language)
+            warnings = warnings + tr_warnings
+        warnings = warnings + self._domain_warnings(req.query)
+        strength = score_strength(valid, sources, extract_section_refs(req.query))
         return ChatResponse(
             claims=valid, sources=sources, warnings=warnings,
             answer_mode=AnswerMode.EXTRACTIVE, evidence_strength=strength,
