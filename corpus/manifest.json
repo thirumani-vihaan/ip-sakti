@@ -1,0 +1,5 @@
+[
+  {"id":"patents_1970_s3p","title":"Patents Act 1970 - Section 3(p)","url":"https://www.indiacode.nic.in/handle/123456789/1832","publisher":"India Code","version":"1970","path":"national/statutes/patents_s3p.txt","document_hash":"sample","status":"in_force","authority_level":"statute","license":"government","jurisdiction":"india","effective_date":"1972-04-20","domains":["patent","tk_risk"]},
+  {"id":"bda_2002_s7","title":"Biological Diversity Act 2002 - Section 7","url":"https://www.indiacode.nic.in/handle/123456789/2046","publisher":"India Code","version":"2023-amended","path":"national/statutes/bda_s7.txt","document_hash":"sample","status":"in_force","authority_level":"statute","license":"government","jurisdiction":"india","effective_date":"2004-04-01","domains":["abs"]},
+  {"id":"gi_act_1999","title":"Geographical Indications Act 1999","url":"https://www.indiacode.nic.in/handle/123456789/1955","publisher":"India Code","version":"1999","path":"national/statutes/gi_act.txt","document_hash":"sample","status":"in_force","authority_level":"statute","license":"government","jurisdiction":"india","effective_date":"2003-09-15","domains":["gi_trademark"]}
+]
