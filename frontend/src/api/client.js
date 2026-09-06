@@ -1,11 +1,25 @@
 const BASE = (import.meta.env && import.meta.env.VITE_API_BASE) || "";
 
 async function post(path, body) {
-  const res = await fetch(`${BASE}${path}`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(body),
-  });
+  let res;
+  try {
+    res = await fetch(`${BASE}${path}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+  } catch (err) {
+    throw new Error(`Network error contacting the server: ${err.message}`);
+  }
+  if (!res.ok) {
+    let detail = "";
+    try {
+      detail = JSON.stringify(await res.json());
+    } catch {
+      detail = res.statusText;
+    }
+    throw new Error(`Request failed (${res.status}): ${detail}`);
+  }
   return res.json();
 }
 

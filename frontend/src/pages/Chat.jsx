@@ -8,12 +8,22 @@ export default function Chat({ api = postChat }) {
   const [jur, setJur] = useState("india");
   const [sensitive, setSensitive] = useState(false);
   const [lang, setLang] = useState("en");
+  const [error, setError] = useState("");
+  const [busy, setBusy] = useState(false);
 
   async function send() {
-    if (!q.trim()) return;
-    const resp = await api(q, { jurisdiction: jur, sensitive, language: lang });
-    setMessages((m) => [...m, { q, resp }]);
-    setQ("");
+    if (!q.trim() || busy) return;
+    setError("");
+    setBusy(true);
+    try {
+      const resp = await api(q, { jurisdiction: jur, sensitive, language: lang });
+      setMessages((m) => [...m, { q, resp }]);
+      setQ("");
+    } catch (err) {
+      setError(err.message || "Something went wrong. Please try again.");
+    } finally {
+      setBusy(false);
+    }
   }
 
   return (
@@ -41,6 +51,11 @@ export default function Chat({ api = postChat }) {
         </label>
       </div>
       <div className="log">
+        {error && (
+          <p className="error" data-testid="chat-error" role="alert">
+            {error}
+          </p>
+        )}
         {messages.map((m, i) => (
           <div key={i}>
             <p className="q">{m.q}</p>
@@ -55,7 +70,7 @@ export default function Chat({ api = postChat }) {
           onKeyDown={(e) => e.key === "Enter" && send()}
           placeholder="Ask about Ayurveda IP, ABS, or regulation..."
         />
-        <button onClick={send}>Ask</button>
+        <button onClick={send} disabled={busy}>{busy ? "Asking…" : "Ask"}</button>
       </div>
     </div>
   );
