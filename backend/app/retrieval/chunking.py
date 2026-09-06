@@ -5,6 +5,7 @@ Each chunk carries enough provenance to become a Source (the retrieval/evidence 
 from __future__ import annotations
 
 import re
+from datetime import date
 from typing import Optional
 
 from pydantic import BaseModel
@@ -26,6 +27,7 @@ class Chunk(BaseModel):
     status: str
     url: str
     document_hash: str
+    effective_date: Optional[date] = None
 
 
 def _paragraphs(text: str) -> list[str]:
@@ -38,6 +40,7 @@ def _mk(doc: RawDoc, section: Optional[str], text: str, n: int) -> Chunk:
         id=f"{doc.id}#c{n}", doc_id=doc.id, title=doc.title, section=section, text=text,
         jurisdiction=doc.jurisdiction, authority_level=doc.authority_level,
         status=doc.status, url=doc.url, document_hash=doc.document_hash,
+        effective_date=doc.effective_date,
     )
 
 

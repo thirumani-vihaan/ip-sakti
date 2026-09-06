@@ -6,7 +6,9 @@ so the offline sample suite (plain .txt) needs neither installed.
 from __future__ import annotations
 
 import hashlib
+from datetime import date
 from pathlib import Path
+from typing import Optional
 
 from pydantic import BaseModel
 
@@ -23,6 +25,7 @@ class RawDoc(BaseModel):
     status: str
     url: str
     document_hash: str
+    effective_date: Optional[date] = None
 
 
 def _extract(path: Path) -> str:
@@ -52,7 +55,7 @@ def ingest(entries: list[ManifestEntry], base_dir: str | Path) -> list[RawDoc]:
                 id=e.id, title=e.title, text=text,
                 jurisdiction=e.jurisdiction.value, authority_level=e.authority_level,
                 license=e.license, status=e.status.value, url=e.url,
-                document_hash=content_hash,
+                document_hash=content_hash, effective_date=e.effective_date,
             )
         )
     return docs

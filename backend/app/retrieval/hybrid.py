@@ -9,14 +9,15 @@ Order of operations (matters):
 """
 from __future__ import annotations
 
+from datetime import date
 from typing import Optional
 
 from app.integrations.provider import EmbeddingProvider
-from app.models.enums import ForceState
 from app.retrieval.keyword_index import KeywordIndex
 from app.retrieval.vector_store import VectorStore
 from app.workflow.reference_resolver import extract_section_refs
 from app.workflow.schema import RetrievalHit
+from app.workflow.temporal import is_in_force_as_of
 
 _RRF_K = 60
 _AUTHORITY_RANK = {
@@ -30,7 +31,9 @@ class HybridRetriever:
         self.ki = keyword_index
         self.emb = embedder
 
-    def retrieve(self, query: str, k: int = 5, jurisdiction: Optional[str] = None) -> list[RetrievalHit]:
+    def retrieve(self, query: str, k: int = 5, jurisdiction: Optional[str] = None,
+                 as_of: Optional[date] = None) -> list[RetrievalHit]:
+        as_of = as_of or date.today()
         pool = max(k * 4, 12)
         vhits = self.vs.query(self.emb.embed([query])[0], k=pool, jurisdiction=jurisdiction)
         khits = self.ki.search(query, k=pool, jurisdiction=jurisdiction)
@@ -48,7 +51,7 @@ class HybridRetriever:
             sec = (h.source.section or "").lower().replace(" ", "")
             return 1 if sec and sec in refs else 0
 
-        eligible = [h for h in meta.values() if h.source.status == ForceState.IN_FORCE]
+        eligible = [h for h in meta.values() if is_in_force_as_of(h, as_of)]
         eligible.sort(
             key=lambda h: (
                 -is_exact(h),

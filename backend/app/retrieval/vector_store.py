@@ -17,7 +17,8 @@ def chunk_to_source(chunk: Chunk, as_of: Optional[date] = None) -> Source:
     return Source(
         id=chunk.id, title=chunk.title, section=chunk.section, url=chunk.url,
         local_excerpt=chunk.text, status=chunk.status, authority=chunk.authority_level,
-        document_hash=chunk.document_hash, as_of=as_of or date.today(),
+        document_hash=chunk.document_hash, effective_date=chunk.effective_date,
+        as_of=as_of or date.today(),
     )
 
 
