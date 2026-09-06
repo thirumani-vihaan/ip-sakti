@@ -61,7 +61,7 @@ class Warning(BaseModel):
 
 
 class ChatRequest(BaseModel):
-    query: str
+    query: str = Field(min_length=1, max_length=2000)
     jurisdiction: Jurisdiction = Jurisdiction.INDIA
     language: str = "en"
     as_of: Optional[date] = None

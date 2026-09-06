@@ -59,7 +59,7 @@ class FakeEmbeddings:
         for t in texts:
             v = [0.0] * self.dim
             for tok in _tokens(t):
-                bucket = int(hashlib.md5(tok.encode()).hexdigest(), 16) % self.dim
+                bucket = int(hashlib.md5(tok.encode(), usedforsecurity=False).hexdigest(), 16) % self.dim
                 v[bucket] += 1.0
             norm = math.sqrt(sum(x * x for x in v)) or 1.0
             out.append([x / norm for x in v])

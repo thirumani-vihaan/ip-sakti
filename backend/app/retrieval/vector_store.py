@@ -70,7 +70,9 @@ class ChromaVectorStore:
             )
         except TypeError:
             self._client = chromadb.PersistentClient(path=persist_dir)
-        self._col = self._client.get_or_create_collection(collection)
+        self._col = self._client.get_or_create_collection(
+            collection, metadata={"hnsw:space": "cosine"}
+        )
         self._meta: dict[str, Chunk] = {}
 
     def add(self, vectors: list[list[float]], chunks: list[Chunk]) -> None:
@@ -93,6 +95,7 @@ class ChromaVectorStore:
             if c is None:
                 continue
             dist = dists[i] if i < len(dists) and dists[i] is not None else 0.0
+            # collection uses cosine distance -> similarity = 1 - dist
             hits.append(
                 RetrievalHit(evidence_id=c.id, text=c.text, score=float(1.0 - dist),
                              source=chunk_to_source(c))

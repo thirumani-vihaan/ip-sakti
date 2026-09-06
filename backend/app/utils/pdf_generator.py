@@ -38,7 +38,8 @@ def build_report_text(resp: ChatResponse) -> str:
 def _wrap(text: str, n: int = 95) -> list[str]:
     if not text:
         return [""]
-    return [text[i:i + n] for i in range(0, len(text), n)]
+    import textwrap
+    return textwrap.wrap(text, width=n, break_long_words=True, break_on_hyphens=False) or [""]
 
 
 def render_pdf(resp: ChatResponse) -> bytes:
