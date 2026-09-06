@@ -1,4 +1,5 @@
 import Chat from "./pages/Chat.jsx";
+import { CompareTool } from "./components/compare.jsx";
 import { AbsWizard, ClassificationWizard } from "./components/wizard.jsx";
 
 export default function App() {
@@ -12,6 +13,7 @@ export default function App() {
       <section className="tools">
         <AbsWizard />
         <ClassificationWizard />
+        <CompareTool />
       </section>
     </div>
   );
