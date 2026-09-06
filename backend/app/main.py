@@ -69,8 +69,12 @@ def build_app(settings: Settings | None = None) -> FastAPI:
     app.state.providers = {"llm": llm, "embeddings": emb, "translation": translation}
     app.state.answer_service = AnswerService(retriever, llm, emb, settings.corpus_version)
 
+    from app.api.routes import abs_check as abs_routes
     from app.api.routes import chat as chat_routes
+    from app.api.routes import classify as classify_routes
     from app.api.routes import health as health_routes
     app.include_router(chat_routes.router)
     app.include_router(health_routes.router)
+    app.include_router(abs_routes.router)
+    app.include_router(classify_routes.router)
     return app
