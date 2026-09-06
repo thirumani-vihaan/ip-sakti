@@ -73,6 +73,7 @@ def build_app(settings: Settings | None = None) -> FastAPI:
     from app.api.routes import chat as chat_routes
     from app.api.routes import classify as classify_routes
     from app.api.routes import compare as compare_routes
+    from app.api.routes import export as export_routes
     from app.api.routes import health as health_routes
     from app.api.routes import roadmap as roadmap_routes
     app.include_router(chat_routes.router)
@@ -81,4 +82,5 @@ def build_app(settings: Settings | None = None) -> FastAPI:
     app.include_router(classify_routes.router)
     app.include_router(roadmap_routes.router)
     app.include_router(compare_routes.router)
+    app.include_router(export_routes.router)
     return app
