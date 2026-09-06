@@ -6,6 +6,11 @@ services:
     ports: ["8000:8000"]
     environment:
       CORPUS_DIR: /app/corpus
+      # Live mode (optional): export these in your shell (or a .env beside this file) before 'docker compose up'.
+      GEMINI_API_KEY: ${GEMINI_API_KEY:-}
+      BHASHINI_USER_ID: ${BHASHINI_USER_ID:-}
+      BHASHINI_ULCA_API_KEY: ${BHASHINI_ULCA_API_KEY:-}
+      BHASHINI_INFERENCE_API_KEY: ${BHASHINI_INFERENCE_API_KEY:-}
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request;urllib.request.urlopen('http://localhost:8000/api/health')"]
       interval: 10s
@@ -33,3 +38,5 @@ services:
 
 volumes:
   chroma_data:
+
+

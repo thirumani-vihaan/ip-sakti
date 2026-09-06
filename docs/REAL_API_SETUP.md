@@ -35,3 +35,21 @@ pip install -r backend/requirements-real.txt
 
 Current default models: LLM `gemini-flash-latest`, embeddings `gemini-embedding-001` (set in `app/integrations/gemini.py`).
 
+
+## Running the server (local)
+```bash
+cd backend
+python -m pip install -r requirements.txt          # core (now includes uvicorn)
+python -m pip install -r requirements-real.txt      # live-mode SDKs (Gemini)
+# put GEMINI_API_KEY in the environment (or backend/.env and export it):
+export GEMINI_API_KEY=your_key_here                 # PowerShell: $env:GEMINI_API_KEY='your_key'
+uvicorn app.main:build_app --factory --host 0.0.0.0 --port 8000
+```
+A live key yields `answer_mode: "live"` on `POST /api/chat`; with no key the server runs in offline fixture mode.
+
+## Running with Docker
+```bash
+export GEMINI_API_KEY=your_key_here      # optional; omit to run offline
+docker compose up --build
+```
+The backend image installs the Gemini SDK, and `docker-compose.yml` passes `GEMINI_API_KEY` (and the `BHASHINI_*` vars) through from your shell. CORS is enabled so the frontend at `:5173` can call the API.

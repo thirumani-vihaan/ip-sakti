@@ -7,6 +7,7 @@ import logging
 from pathlib import Path
 
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import Settings
 from app.corpus.ingestion import ingest
@@ -52,6 +53,12 @@ def make_translation(settings: Settings):
 def build_app(settings: Settings | None = None) -> FastAPI:
     settings = settings or Settings.from_env()
     app = FastAPI(title="IP-SAKTI Sahayak", version="0.1.0")
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["*"],
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
 
     llm = make_llm(settings)
     emb = make_embeddings(settings)
@@ -84,3 +91,4 @@ def build_app(settings: Settings | None = None) -> FastAPI:
     app.include_router(compare_routes.router)
     app.include_router(export_routes.router)
     return app
+
