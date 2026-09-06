@@ -50,7 +50,8 @@ class AnswerService:
 
     def answer(self, req: ChatRequest) -> ChatResponse:
         as_of = req.as_of or date.today()
-        hits = self.retriever.retrieve(req.query, k=5, jurisdiction=req.jurisdiction.value, as_of=as_of)
+        hits = self.retriever.retrieve(req.query, k=5, jurisdiction=req.jurisdiction.value,
+                                       as_of=as_of, local_only=req.sensitive)
         if not hits:
             return abstention_response("out_of_corpus", req, as_of, self.corpus_version)
 

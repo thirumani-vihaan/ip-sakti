@@ -12,7 +12,7 @@ from __future__ import annotations
 from datetime import date
 from typing import Optional
 
-from app.integrations.provider import EmbeddingProvider
+from app.integrations.provider import EmbeddingProvider, ProviderError
 from app.retrieval.keyword_index import KeywordIndex
 from app.retrieval.vector_store import VectorStore
 from app.workflow.reference_resolver import extract_section_refs
@@ -32,11 +32,16 @@ class HybridRetriever:
         self.emb = embedder
 
     def retrieve(self, query: str, k: int = 5, jurisdiction: Optional[str] = None,
-                 as_of: Optional[date] = None) -> list[RetrievalHit]:
+                 as_of: Optional[date] = None, local_only: bool = False) -> list[RetrievalHit]:
         as_of = as_of or date.today()
         pool = max(k * 4, 12)
-        vhits = self.vs.query(self.emb.embed([query])[0], k=pool, jurisdiction=jurisdiction)
         khits = self.ki.search(query, k=pool, jurisdiction=jurisdiction)
+        vhits: list[RetrievalHit] = []
+        if not local_only:
+            try:
+                vhits = self.vs.query(self.emb.embed([query])[0], k=pool, jurisdiction=jurisdiction)
+            except ProviderError:
+                vhits = []  # embeddings unavailable (or sensitive mode) -> keyword-only
 
         scores: dict[str, float] = {}
         meta: dict[str, RetrievalHit] = {}

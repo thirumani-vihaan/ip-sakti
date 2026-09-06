@@ -59,7 +59,31 @@ def main() -> int:
     br.record_success()
     assert br.healthy
 
-    print("T013 OK: outage->extractive; cache->cached; breaker opens/closes; healthy->live")
+    # 4) embedding-provider outage -> keyword-only retrieval; still answers, no crash
+    from app.corpus.ingestion import ingest
+    from app.corpus.manifest import load_manifest
+    from app.integrations.fakes import FakeEmbeddings
+    from app.integrations.provider import ProviderError
+    from app.retrieval.chunking import chunk_doc
+    from app.retrieval.hybrid import HybridRetriever
+    from app.retrieval.keyword_index import BM25Index
+    from app.retrieval.vector_store import InMemoryVectorStore
+    from app.workflow.pipeline import AnswerService
+
+    class _EmbDown:
+        def embed(self, texts):
+            raise ProviderError("embeddings down", retryable=True)
+
+    chunks = [c for d in ingest(load_manifest(CORPUS / "manifest.json"), CORPUS) for c in chunk_doc(d)]
+    vs = InMemoryVectorStore()
+    vs.add(FakeEmbeddings().embed([c.text for c in chunks]), chunks)
+    ki = BM25Index()
+    ki.add(chunks)
+    svc = AnswerService(HybridRetriever(vs, ki, _EmbDown()), FakeLLM(), FakeEmbeddings(), "v0")
+    r = svc.answer(ChatRequest(query="Section 3(p) traditional knowledge patent"))
+    assert r.claims, "must still answer via keyword-only when the embedding provider is down"
+
+    print("T013 OK: outage->extractive; cache->cached; breaker opens/closes; embed-down->keyword-only")
     return 0
 
 

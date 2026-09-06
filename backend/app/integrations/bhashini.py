@@ -4,6 +4,8 @@ Live spot-check required after credentials are set (see docs/REAL_API_SETUP.md).
 """
 from __future__ import annotations
 
+from app.integrations.provider import ProviderError
+
 
 class BhashiniTranslation:
     INFERENCE_URL = "https://dhruva-api.bhashini.gov.in/services/inference/pipeline"
@@ -16,22 +18,25 @@ class BhashiniTranslation:
     def translate(self, text: str, src: str, tgt: str) -> str:
         if src == tgt:
             return text
-        import httpx  # lazy
-        headers = {
-            "Authorization": self.inference_key,
-            "userID": self.user_id,
-            "ulcaApiKey": self.ulca_key or "",
-        }
-        payload = {
-            "pipelineTasks": [
-                {
-                    "taskType": "translation",
-                    "config": {"language": {"sourceLanguage": src, "targetLanguage": tgt}},
-                }
-            ],
-            "inputData": {"input": [{"source": text}]},
-        }
-        resp = httpx.post(self.INFERENCE_URL, json=payload, headers=headers, timeout=30)
-        resp.raise_for_status()
-        data = resp.json()
-        return data["pipelineResponse"][0]["output"][0]["target"]
+        try:
+            import httpx  # lazy
+            headers = {
+                "Authorization": self.inference_key,
+                "userID": self.user_id,
+                "ulcaApiKey": self.ulca_key or "",
+            }
+            payload = {
+                "pipelineTasks": [
+                    {
+                        "taskType": "translation",
+                        "config": {"language": {"sourceLanguage": src, "targetLanguage": tgt}},
+                    }
+                ],
+                "inputData": {"input": [{"source": text}]},
+            }
+            resp = httpx.post(self.INFERENCE_URL, json=payload, headers=headers, timeout=30)
+            resp.raise_for_status()
+            data = resp.json()
+            return data["pipelineResponse"][0]["output"][0]["target"]
+        except Exception as e:
+            raise ProviderError(f"bhashini translate failed: {e}", retryable=True) from e

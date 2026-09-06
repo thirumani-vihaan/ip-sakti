@@ -1,6 +1,7 @@
 """T003 acceptance: manifest loads with provenance; ingest produces docs; licence enforced."""
 import pathlib
 import sys
+import tempfile
 
 BACKEND = pathlib.Path(__file__).resolve().parents[2] / "backend"
 CORPUS = pathlib.Path(__file__).resolve().parents[2] / "corpus"
@@ -34,7 +35,21 @@ def main() -> int:
     except ValueError:
         pass
 
-    print(f"T003 OK: {len(docs)} docs ingested with provenance; licence enforced")
+    # hash mismatch: a declared (non-sample) hash that does not match the file is rejected
+    with tempfile.TemporaryDirectory() as td:
+        (pathlib.Path(td) / "doc.txt").write_text("some legal text", encoding="utf-8")
+        bad = ManifestEntry(
+            id="h", title="t", url="u", publisher="p", version="v", path="doc.txt",
+            document_hash="sha256:deadbeef", status="in_force", authority_level="statute",
+            license="government", jurisdiction="india",
+        )
+        try:
+            ingest([bad], td)
+            raise AssertionError("hash mismatch should have been rejected")
+        except ValueError:
+            pass
+
+    print(f"T003 OK: {len(docs)} docs ingested with provenance; licence + hash enforced")
     return 0
 
 

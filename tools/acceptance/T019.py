@@ -14,6 +14,13 @@ class _Tripwire:
         raise AssertionError("LLM must NOT be called in Sensitive-Invention mode")
 
 
+class _EmbTripwire:
+    """An embedder that fails loudly if ever called — proves sensitive mode makes no external embed call."""
+
+    def embed(self, texts):
+        raise AssertionError("embedder must NOT be called in Sensitive-Invention mode")
+
+
 def main() -> int:
     from app.corpus.ingestion import ingest
     from app.corpus.manifest import load_manifest
@@ -32,7 +39,7 @@ def main() -> int:
     vs.add(emb.embed([c.text for c in chunks]), chunks)
     ki = BM25Index()
     ki.add(chunks)
-    svc = AnswerService(HybridRetriever(vs, ki, emb), _Tripwire(), emb, "v0")
+    svc = AnswerService(HybridRetriever(vs, ki, _EmbTripwire()), _Tripwire(), emb, "v0")
 
     r = svc.answer(ChatRequest(query="Under Section 3(p), can I patent a traditional formulation?", sensitive=True))
     assert r.answer_mode == AnswerMode.EXTRACTIVE and r.claims, "sensitive mode must return extractive cited answer"
