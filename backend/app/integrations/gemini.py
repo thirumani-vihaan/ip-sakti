@@ -11,7 +11,7 @@ from app.workflow.schema import Claim, RetrievalHit
 
 
 class GeminiLLM:
-    def __init__(self, api_key: str, model: str = "gemini-2.0-flash"):
+    def __init__(self, api_key: str, model: str = "gemini-flash-latest"):
         self.api_key = api_key
         self.model = model
 
@@ -31,7 +31,7 @@ class GeminiLLM:
 
 
 class GeminiEmbeddings:
-    def __init__(self, api_key: str, model: str = "text-embedding-004"):
+    def __init__(self, api_key: str, model: str = "gemini-embedding-001"):
         self.api_key = api_key
         self.model = model
 
@@ -48,3 +48,4 @@ class GeminiEmbeddings:
             return out
         except Exception as e:
             raise ProviderError(f"gemini embed failed: {e}", retryable=True) from e
+

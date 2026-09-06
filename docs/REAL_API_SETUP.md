@@ -25,3 +25,13 @@ These paths are exercised by fakes offline; verify them once live:
 - `GEMINI_API_KEY` present → `GeminiLLM` + `GeminiEmbeddings`; else fakes.
 - `BHASHINI_USER_ID` + `BHASHINI_INFERENCE_API_KEY` present → `BhashiniTranslation`; else fake.
 Fixture mode is logged clearly so it never silently pretends to be live.
+
+## Install live-mode SDKs
+The offline core excludes heavy SDKs. Before using real keys, install them:
+
+```bash
+pip install -r backend/requirements-real.txt
+```
+
+Current default models: LLM `gemini-flash-latest`, embeddings `gemini-embedding-001` (set in `app/integrations/gemini.py`).
+

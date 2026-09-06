@@ -1,0 +1,5 @@
+# Optional dependencies for LIVE mode (real Gemini / Bhashini calls).
+# The offline core (requirements.lock.txt) intentionally excludes these heavy SDKs.
+# Install only when going live:  pip install -r requirements-real.txt
+-r requirements.lock.txt
+google-generativeai==0.8.6
