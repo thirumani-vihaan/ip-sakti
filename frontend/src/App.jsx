@@ -1,4 +1,5 @@
 import Chat from "./pages/Chat.jsx";
+import { AbsWizard, ClassificationWizard } from "./components/wizard.jsx";
 
 export default function App() {
   return (
@@ -8,6 +9,10 @@ export default function App() {
       </header>
       <div className="disclaimer">Informational guidance, not legal advice. Consult a qualified professional.</div>
       <Chat />
+      <section className="tools">
+        <AbsWizard />
+        <ClassificationWizard />
+      </section>
     </div>
   );
 }
