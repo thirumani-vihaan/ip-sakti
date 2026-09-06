@@ -22,3 +22,5 @@ data/fallback_index/
 # logs / os
 *.log
 .DS_Store
+
+eval/report.md

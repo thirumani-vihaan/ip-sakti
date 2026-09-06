@@ -1,8 +1,8 @@
 """AnswerService: orchestrates retrieve -> relevance-gate -> generate -> validate -> strength/abstain."""
 from __future__ import annotations
 
+import re
 from datetime import date
-
 from typing import Optional
 
 from app.integrations.provider import (
@@ -18,11 +18,17 @@ from app.workflow.generation import generate_grounded
 from app.workflow.reference_resolver import extract_section_refs
 from app.workflow.schema import ChatRequest, ChatResponse, Claim, Warning
 
-_RELEVANCE_MIN = 0.05
+_STOP = {
+    "a", "an", "the", "to", "of", "in", "on", "at", "for", "and", "or", "is", "are",
+    "be", "can", "i", "my", "how", "do", "does", "what", "about", "with", "you", "your",
+    "this", "that", "it", "as", "by", "from", "was", "were", "will", "shall", "any", "such",
+    "under", "say", "says", "use", "used",
+}
+_WORD_RE = re.compile(r"[a-z0-9]+")
 
 
-def _cosine(a: list[float], b: list[float]) -> float:
-    return sum(x * y for x, y in zip(a, b))
+def _content_tokens(text: str) -> set[str]:
+    return {t for t in _WORD_RE.findall(text.lower()) if t not in _STOP and len(t) > 1}
 
 
 class AnswerService:
@@ -48,10 +54,9 @@ class AnswerService:
         if not hits:
             return abstention_response("out_of_corpus", req, as_of, self.corpus_version)
 
-        # relevance gate: reject out-of-corpus queries before generating anything
-        qv = self.emb.embed([req.query])[0]
-        top_rel = max(_cosine(qv, self.emb.embed([h.text])[0]) for h in hits)
-        if top_rel < _RELEVANCE_MIN:
+        # relevance gate: out-of-corpus if the query shares no content word with any hit
+        q_terms = _content_tokens(req.query)
+        if not any(q_terms & _content_tokens(h.text) for h in hits):
             return abstention_response("out_of_corpus", req, as_of, self.corpus_version)
 
         # Sensitive-Invention mode: never call an external LLM; process locally only.
