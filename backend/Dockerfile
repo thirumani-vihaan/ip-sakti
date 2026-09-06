@@ -4,7 +4,7 @@ WORKDIR /app
 COPY backend/requirements.txt backend/requirements.lock.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 # Live-mode SDK (used only when GEMINI_API_KEY is provided at runtime; harmless otherwise):
-RUN pip install --no-cache-dir google-generativeai==0.8.6
+RUN pip install --no-cache-dir google-genai==2.20.0
 
 COPY backend/app ./app
 COPY corpus ./corpus
