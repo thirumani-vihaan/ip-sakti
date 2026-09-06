@@ -1,0 +1,24 @@
+# secrets
+.env
+.env.*
+!.env.example
+
+# python
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# node
+node_modules/
+dist/
+build/
+
+# data / caches (rebuilt from manifest)
+data/chroma_db/
+data/hf_cache/
+data/fallback_index/
+
+# logs / os
+*.log
+.DS_Store
