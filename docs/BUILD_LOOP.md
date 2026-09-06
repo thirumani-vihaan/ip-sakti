@@ -55,6 +55,12 @@ Retry cap per task = 3, then STOP with diagnostics.
 GIT PROTOCOL  (push after every feature — MANDATORY, with a secret-scan gate)
 ================================================================================
 ONE-TIME SETUP (Phase 2, task T000, before any feature commit):
+NOTE: the ip-sakti repo is ALREADY initialized, scaffolded (README, .gitignore,
+.env.example, docs/, folder skeleton), and pushed to the remote on branch `main`,
+authored solely by the repo owner (NO Copilot co-author/contributor trailer, ever).
+If that is already true, T000 = verify remote + branch + clean secret state and
+CONTINUE; do NOT re-init, re-scaffold, or overwrite existing history. The steps
+below apply only if starting from an empty directory.
 - `git init`; default branch `main`.
 - Write .gitignore BEFORE the first commit. It MUST include at least:
     .env
@@ -97,6 +103,10 @@ PER-FEATURE COMMIT + PUSH (run only AFTER the feature's acceptance passes):
       or scratch files are staged.
    e. If ANY of the above trips: UNSTAGE, remove the offending content, and do
       NOT commit until clean. Log the near-miss to logs/agent_progress.log.
+   f. NOT-A-SECRET exemptions (avoid false positives): documentation of these
+      patterns themselves (e.g. docs/BUILD_LOOP.md), and any line containing
+      regex metacharacters ([ ] { } \ or backticks), are NOT secrets — a real
+      credential is a literal, so exclude metachar-bearing lines before deciding.
 3. COMMIT with a Conventional-Commits message that carries the evidence:
      <type>(T0XX): <short description>
 
@@ -280,7 +290,7 @@ keyword stores), using the interface from INTERFACES.md:
    credential, and confirmation that no code change is needed.
 
 --- 2.2 Dependency pinning + preflight + smoke test ---
-- Backend: requirements.in (ranges) -> install -> tools/smoke_test_deps.py ->
+- Backend: use Python 3.11 (`py -3.11 -m venv venv`). requirements.in (ranges) -> install -> tools/smoke_test_deps.py ->
   freeze requirements.lock.txt; requirements.txt = "-r requirements.lock.txt".
   When a dependency is migrated, update requirements.in in the SAME commit.
 - smoke_test_deps.py: load .env; set HF cache dirs; import key libs; Chroma
@@ -359,8 +369,11 @@ retry <=3 then STOP with diagnostics.
         in-force returned; as_of honored.  [HIGH]
   T013  Offline / resilience: local fallback index; extractive-only answer
         (passages + citations, no generation) on LLM failure; provider circuit
-        breaker + health; answer_mode label. Acceptance: force LLM outage ->
-        extractive cited answer, answer_mode="extractive".  [HIGH]
+        breaker + health; answer_mode label (live | extractive | cached); cached
+        approved demo answers used ONLY as an outage fallback and visibly
+        labelled (never the primary path). Acceptance: force LLM outage ->
+        extractive cited answer, answer_mode="extractive"; cached path labelled.
+        [HIGH]
   T014  Deterministic rule engine + rule sets: rules/dsl.py, engine.py,
         abs_rules.py, classification_rules.py; each rule cites source+version;
         missing required fact -> "insufficient information". Acceptance: same
