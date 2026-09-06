@@ -29,14 +29,24 @@ class KeywordIndex(Protocol):
 class BM25Index:
     def __init__(self) -> None:
         self._chunks: list[Chunk] = []
+        self._tokens: list[list[str]] = []
         self._bm25: Optional[BM25Okapi] = None
+        self._dirty: bool = False
 
     def add(self, chunks: list[Chunk]) -> None:
-        self._chunks.extend(chunks)
-        corpus = [_tok(c.text + " " + (c.section or "")) for c in self._chunks]
-        self._bm25 = BM25Okapi(corpus) if corpus else None
+        # accumulate incrementally; defer the (expensive) index build to first search
+        for c in chunks:
+            self._chunks.append(c)
+            self._tokens.append(_tok(c.text + " " + (c.section or "")))
+        self._dirty = True
+
+    def _ensure_built(self) -> None:
+        if self._dirty:
+            self._bm25 = BM25Okapi(self._tokens) if self._tokens else None
+            self._dirty = False
 
     def search(self, query: str, k: int = 5, jurisdiction: Optional[str] = None) -> list[RetrievalHit]:
+        self._ensure_built()
         if self._bm25 is None:
             return []
         scores = self._bm25.get_scores(_tok(query))
