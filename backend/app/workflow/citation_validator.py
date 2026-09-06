@@ -9,25 +9,9 @@ If nothing survives, the caller abstains. The model can never smuggle a source i
 """
 from __future__ import annotations
 
-import re
-
+from app.workflow.refs import norm as _norm
+from app.workflow.refs import refs_in as _refs_in
 from app.workflow.schema import Claim, RetrievalHit, Source, Warning
-
-_SECTION_RE = re.compile(r"section\s+(\d+[a-z]*(?:\([a-z0-9]+\))?)", re.I)
-_FORM_RE = re.compile(r"\bform\s+([ivx]+)\b", re.I)
-
-
-def _norm(s: str) -> str:
-    return s.lower().replace(" ", "")
-
-
-def _refs_in(text: str) -> set[str]:
-    out: set[str] = set()
-    for m in _SECTION_RE.finditer(text):
-        out.add("s:" + _norm(m.group(1)))
-    for m in _FORM_RE.finditer(text):
-        out.add("f:" + m.group(1).lower())
-    return out
 
 
 def validate_claims(
