@@ -54,6 +54,13 @@ class AnswerService:
         if top_rel < _RELEVANCE_MIN:
             return abstention_response("out_of_corpus", req, as_of, self.corpus_version)
 
+        # Sensitive-Invention mode: never call an external LLM; process locally only.
+        if req.sensitive:
+            return self._extractive(
+                req, hits, as_of, code="sensitive_local",
+                message="Sensitive-Invention mode: processed locally; no external LLM call.",
+            )
+
         if self.breaker.open:
             return self._fallback(req, hits, as_of)
         try:
@@ -83,14 +90,13 @@ class AnswerService:
                 return cached
         return self._extractive(req, hits, as_of)
 
-    def _extractive(self, req: ChatRequest, hits, as_of) -> ChatResponse:
+    def _extractive(self, req: ChatRequest, hits, as_of, code: str = "degraded",
+                    message: str = "LLM unavailable; showing source passages without synthesis.") -> ChatResponse:
         # top passages become claims that cite themselves -> grounded by construction
         claims = [Claim(text=h.text, source_ids=[h.evidence_id]) for h in hits[:3]]
         valid, sources, warnings = validate_claims(claims, hits)
         strength = score_strength(valid, sources, extract_section_refs(req.query))
-        warnings = warnings + [
-            Warning(code="degraded", message="LLM unavailable; showing source passages without synthesis.")
-        ]
+        warnings = warnings + [Warning(code=code, message=message)]
         return ChatResponse(
             claims=valid, sources=sources, warnings=warnings,
             answer_mode=AnswerMode.EXTRACTIVE, evidence_strength=strength,
