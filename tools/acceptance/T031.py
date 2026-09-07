@@ -32,7 +32,7 @@ def main() -> int:
     assert client.post("/api/analyze", files={"file": ("x.exe", b"MZ", "application/octet-stream")}).status_code == 415
 
     # EPHEMERAL: the upload must NOT be added to the knowledge base
-    assert client.get("/api/sources").json()["count"] == 13, "upload must not pollute the corpus"
+    assert client.get("/api/sources").json()["count"] == 14, "upload must not pollute the corpus"
 
     print("T031 OK: /api/analyze grounds uploaded doc against corpus; ephemeral; type-checked")
     return 0

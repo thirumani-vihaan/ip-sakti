@@ -63,6 +63,19 @@ def make_translation(settings: Settings):
     return OfflineGlossaryTranslation()
 
 
+def _validate_rule_sources(manifest) -> None:
+    """Fail fast if any deterministic rule cites a corpus id that does not exist,
+    so the ABS/classifier tabs never show an unresolvable citation."""
+    from app.rules.abs_rules import ABS
+    from app.rules.classification_rules import CLASSIFICATION
+    ids = {e.id for e in manifest}
+    for rs in (ABS, CLASSIFICATION):
+        used = {r.source_id for r in rs.rules} | {rs.default_source}
+        missing = used - ids
+        if missing:
+            raise RuntimeError(f"rule set '{rs.name}' cites unknown corpus sources: {sorted(missing)}")
+
+
 def build_app(settings: Settings | None = None) -> FastAPI:
     settings = settings or Settings.from_env()
     configure_logging(os.getenv("LOG_LEVEL", "INFO"))
@@ -85,6 +98,7 @@ def build_app(settings: Settings | None = None) -> FastAPI:
     translation = make_translation(settings)
 
     manifest = load_manifest(Path(settings.corpus_dir) / "manifest.json")
+    _validate_rule_sources(manifest)
     docs = ingest(manifest, settings.corpus_dir)
     chunks = [c for d in docs for c in chunk_doc(d)]
     vs = InMemoryVectorStore()

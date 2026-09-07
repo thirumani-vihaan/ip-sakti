@@ -35,6 +35,23 @@
     ]
   },
   {
+    "id": "bda_2002_s3",
+    "title": "Biological Diversity Act, 2002 - Section 3 (foreign entities: NBA approval)",
+    "url": "https://www.indiacode.nic.in/handle/123456789/2046",
+    "publisher": "India Code",
+    "version": "2023-amended",
+    "path": "national/statutes/bda_s3.txt",
+    "document_hash": "sha256:ae0bfcfff297f216cb274da57d70f1422d39dbc177315c11b83a6b16e6803160",
+    "status": "in_force",
+    "authority_level": "statute",
+    "license": "government",
+    "jurisdiction": "india",
+    "effective_date": "2004-04-01",
+    "domains": [
+      "abs"
+    ]
+  },
+  {
     "id": "gi_act_1999",
     "title": "Geographical Indications of Goods Act, 1999",
     "url": "https://www.indiacode.nic.in/handle/123456789/1955",

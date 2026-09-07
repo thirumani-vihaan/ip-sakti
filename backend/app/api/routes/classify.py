@@ -18,6 +18,7 @@ class ClassifyRequest(BaseModel):
     modified: Optional[str] = None
     novel_actives: Optional[str] = None
     intended_use: Optional[str] = None
+    plant_derived: Optional[str] = None
 
 
 @router.post("/api/classify", response_model=RuleResult)
