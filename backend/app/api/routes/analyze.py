@@ -61,7 +61,9 @@ async def analyze(
         raise HTTPException(status_code=422, detail="no readable text found in document")
 
     svc = request.app.state.answer_service
-    analysis = svc.answer(ChatRequest(query=clean[:2000], jurisdiction=jurisdiction))
+    # Sensitive by default: an uploaded document is processed locally (no external LLM),
+    # so its contents are never sent to a third-party provider even when keys are set.
+    analysis = svc.answer(ChatRequest(query=clean[:2000], jurisdiction=jurisdiction, sensitive=True))
     return AnalyzeResponse(
         filename=file.filename or "upload",
         extracted_preview=clean[:400],

@@ -29,7 +29,9 @@ export default function Chat({ api = postChat }) {
 
   useEffect(() => {
     try {
-      localStorage.setItem(HISTORY_KEY, JSON.stringify(messages.slice(-20)));
+      // never persist Sensitive-Invention conversations to disk
+      const persistable = messages.filter((m) => !m.sensitive).slice(-20);
+      localStorage.setItem(HISTORY_KEY, JSON.stringify(persistable));
     } catch { /* ignore */ }
   }, [messages]);
 
@@ -40,7 +42,7 @@ export default function Chat({ api = postChat }) {
     setBusy(true);
     try {
       const resp = await api(query, { jurisdiction: jur, sensitive, language: lang });
-      setMessages((m) => [...m, { q: query, resp }]);
+      setMessages((m) => [...m, { q: query, resp, sensitive }]);
       setQ("");
     } catch (err) {
       setError(err.message || "Something went wrong. Please try again.");

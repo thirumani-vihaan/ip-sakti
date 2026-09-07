@@ -5,7 +5,7 @@ from datetime import date
 from typing import Optional
 
 from fastapi import APIRouter, Request
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 from app.models.enums import Jurisdiction
 from app.workflow.schema import ChatRequest, ChatResponse
@@ -20,7 +20,7 @@ _FACETS = [
 
 
 class RoadmapRequest(BaseModel):
-    query: str
+    query: str = Field(min_length=1, max_length=1800)
     jurisdiction: Jurisdiction = Jurisdiction.INDIA
     language: str = "en"
     as_of: Optional[date] = None
@@ -42,7 +42,7 @@ def roadmap(req: RoadmapRequest, request: Request) -> RoadmapResponse:
     steps = []
     for title, tmpl in _FACETS:
         sub = ChatRequest(
-            query=tmpl.format(q=req.query), jurisdiction=req.jurisdiction,
+            query=tmpl.format(q=req.query)[:2000], jurisdiction=req.jurisdiction,
             language=req.language, as_of=req.as_of, sensitive=req.sensitive,
         )
         steps.append(RoadmapStep(title=title, answer=svc.answer(sub)))

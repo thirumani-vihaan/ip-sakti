@@ -15,7 +15,7 @@ def main() -> int:
 
     # 2) deployment artifacts present + well-formed
     compose = (ROOT / "docker-compose.yml").read_text(encoding="utf-8")
-    for token in ("backend:", "frontend:", "chromadb:", "healthcheck:"):
+    for token in ("backend:", "frontend:", "healthcheck:", "expose:"):
         assert token in compose, f"docker-compose missing {token}"
     assert (ROOT / "backend" / "Dockerfile").exists(), "backend Dockerfile missing"
     assert (ROOT / "frontend" / "Dockerfile").exists(), "frontend Dockerfile missing"

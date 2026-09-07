@@ -5,7 +5,7 @@ from datetime import date
 from typing import Optional
 
 from fastapi import APIRouter, Request
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 from app.models.enums import Jurisdiction
 from app.workflow.schema import ChatRequest, ChatResponse
@@ -14,8 +14,8 @@ router = APIRouter()
 
 
 class CompareRequest(BaseModel):
-    option_a: str
-    option_b: str
+    option_a: str = Field(min_length=1, max_length=2000)
+    option_b: str = Field(min_length=1, max_length=2000)
     jurisdiction: Jurisdiction = Jurisdiction.INDIA
     language: str = "en"
     as_of: Optional[date] = None
