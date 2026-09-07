@@ -26,9 +26,16 @@ CLASSIFICATION = RuleSet(
             authority="AYUSH Licensing Authority", source_id="dc_act_ayush", rule_version=_VERSION,
         ),
         Rule(
+            id="phytopharmaceutical",
+            when={"novel_actives": "yes", "intended_use": "medicine", "plant_derived": "yes"},
+            obligation="Phytopharmaceutical drug (purified plant-derived actives with defined constituents); "
+                       "follow the phytopharmaceutical pathway with specified safety/efficacy data.",
+            authority="Drugs Controller (CDSCO)", source_id="dc_act_ayush", rule_version=_VERSION,
+        ),
+        Rule(
             id="new_drug",
             when={"novel_actives": "yes", "intended_use": "medicine"},
-            obligation="New drug / phytopharmaceutical pathway; novel actives require additional safety/efficacy data.",
+            obligation="New drug (novel actives); requires additional safety and efficacy data before approval.",
             authority="Drugs Controller", source_id="dc_act_ayush", rule_version=_VERSION,
         ),
         Rule(
