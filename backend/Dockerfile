@@ -12,6 +12,6 @@ COPY corpus ./corpus
 ENV CORPUS_DIR=/app/corpus
 EXPOSE 8000
 # build_app is a factory; verify corpus integrity at startup happens inside build_app's ingest.
-CMD ["uvicorn", "app.main:build_app", "--factory", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "app.main:build_app", "--factory", "--host", "0.0.0.0", "--port", "8000", "--proxy-headers", "--forwarded-allow-ips", "*"]
 
 
