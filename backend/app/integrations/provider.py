@@ -1,6 +1,7 @@
 """Injectable provider interfaces. Workflow code depends ONLY on these, never on an SDK."""
 from __future__ import annotations
 
+import time
 from typing import Protocol, runtime_checkable
 
 from app.workflow.schema import Claim, RetrievalHit
@@ -15,21 +16,31 @@ class ProviderError(Exception):
 
 
 class CircuitBreaker:
-    """Opens after `threshold` consecutive failures; closes on the next success."""
+    """Opens after `threshold` consecutive failures; after `cooldown_seconds` it goes
+    half-open (allows one trial call). A success closes it; a failure re-opens it. This
+    lets the service recover automatically once the provider comes back."""
 
-    def __init__(self, threshold: int = 3):
+    def __init__(self, threshold: int = 3, cooldown_seconds: float = 30.0):
         self.threshold = threshold
+        self.cooldown = cooldown_seconds
         self.failures = 0
-        self.open = False
+        self.opened_at: float | None = None
 
     def record_success(self) -> None:
         self.failures = 0
-        self.open = False
+        self.opened_at = None
 
     def record_failure(self) -> None:
         self.failures += 1
         if self.failures >= self.threshold:
-            self.open = True
+            self.opened_at = time.monotonic()
+
+    @property
+    def open(self) -> bool:
+        if self.opened_at is None:
+            return False
+        # after the cooldown, report closed so the caller makes one trial attempt (half-open)
+        return (time.monotonic() - self.opened_at) < self.cooldown
 
     @property
     def healthy(self) -> bool:

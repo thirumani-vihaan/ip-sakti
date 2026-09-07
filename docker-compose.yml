@@ -6,6 +6,8 @@ services:
     ports: ["8000:8000"]
     environment:
       CORPUS_DIR: /app/corpus
+      # The frontend nginx proxies /api to this service; trust its X-Forwarded-For hop.
+      TRUST_PROXY: "1"
       # Live mode (optional): export these in your shell (or a .env beside this file) before 'docker compose up'.
       GEMINI_API_KEY: ${GEMINI_API_KEY:-}
       BHASHINI_USER_ID: ${BHASHINI_USER_ID:-}
