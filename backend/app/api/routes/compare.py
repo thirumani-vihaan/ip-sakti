@@ -17,6 +17,8 @@ class CompareRequest(BaseModel):
     option_a: str = Field(min_length=1, max_length=2000)
     option_b: str = Field(min_length=1, max_length=2000)
     jurisdiction: Jurisdiction = Jurisdiction.INDIA
+    jurisdiction_a: Optional[Jurisdiction] = None
+    jurisdiction_b: Optional[Jurisdiction] = None
     language: str = "en"
     as_of: Optional[date] = None
     sensitive: bool = False
@@ -30,11 +32,13 @@ class CompareResponse(BaseModel):
 @router.post("/api/compare", response_model=CompareResponse)
 def compare(req: CompareRequest, request: Request) -> CompareResponse:
     svc = request.app.state.answer_service
+    jur_a = req.jurisdiction_a or req.jurisdiction
+    jur_b = req.jurisdiction_b or req.jurisdiction
 
-    def _ans(q: str) -> ChatResponse:
+    def _ans(q: str, jur: Jurisdiction) -> ChatResponse:
         return svc.answer(ChatRequest(
-            query=q, jurisdiction=req.jurisdiction, language=req.language,
+            query=q, jurisdiction=jur, language=req.language,
             as_of=req.as_of, sensitive=req.sensitive,
         ))
 
-    return CompareResponse(a=_ans(req.option_a), b=_ans(req.option_b))
+    return CompareResponse(a=_ans(req.option_a, jur_a), b=_ans(req.option_b, jur_b))
