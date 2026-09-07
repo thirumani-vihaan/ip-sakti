@@ -38,6 +38,15 @@ def make_embeddings(settings: Settings):
     if settings.gemini_api_key:
         from app.integrations.gemini import GeminiEmbeddings
         return GeminiEmbeddings(settings.gemini_api_key)
+    # optional credential-free semantic tier (opt-in): real local model if available
+    if os.getenv("USE_LOCAL_EMBEDDINGS") == "1":
+        from app.integrations.local_embeddings import (
+            LocalEmbeddings, sentence_transformers_available,
+        )
+        if sentence_transformers_available():
+            log.info("Embedding provider: local sentence-transformers")
+            return LocalEmbeddings()
+        log.warning("USE_LOCAL_EMBEDDINGS=1 but sentence-transformers is not installed; using fixtures")
     from app.integrations.fakes import FakeEmbeddings
     log.info("Embedding provider: fixture mode")
     return FakeEmbeddings()
