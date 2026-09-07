@@ -46,7 +46,22 @@ def main() -> int:
     pdf = client.post("/api/export/pdf", json=chat)
     assert pdf.status_code == 200 and pdf.content[:4] == b"%PDF"
 
-    print("smoke_demo OK: health, chat(grounded+abstain), abs, classify, roadmap, compare, pdf")
+    # newer surfaces: search, sources registry, ephemeral upload analysis, escalation
+    srch = client.get("/api/search", params={"q": "Section 3(p) traditional knowledge", "k": 3}).json()
+    assert srch["results"], "search should return grounded hits"
+
+    srcs = client.get("/api/sources").json()
+    assert srcs["count"] >= 13 and srcs["sources"], "sources registry should list the corpus"
+
+    up = client.post("/api/analyze", files={"file": (
+        "label.txt", b"Ayurvedic traditional knowledge formulation patent Section 3(p)", "text/plain")})
+    assert up.status_code == 200 and "analysis" in up.json(), "upload analysis should return an answer"
+
+    esc = client.post("/api/escalate", json={"query": "Can I patent X?"}).json()
+    assert esc["reference_id"].startswith("IPSAKTI-"), "escalation should return a reference id"
+
+    print("smoke_demo OK: health, chat(grounded+abstain), abs, classify, roadmap, compare, "
+          "pdf, search, sources, analyze, escalate")
     return 0
 
 
