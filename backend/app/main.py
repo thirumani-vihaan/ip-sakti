@@ -4,11 +4,14 @@ else fixture-backed fakes, and injects the AnswerService.
 from __future__ import annotations
 
 import logging
+import os
 from pathlib import Path
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from app.api.middleware.disclaimer import DisclaimerHeaderMiddleware
+from app.api.middleware.rate_limit import RateLimitMiddleware
 from app.config import Settings
 from app.corpus.ingestion import ingest
 from app.corpus.manifest import load_manifest
@@ -16,6 +19,7 @@ from app.retrieval.chunking import chunk_doc
 from app.retrieval.hybrid import HybridRetriever
 from app.retrieval.keyword_index import BM25Index
 from app.retrieval.vector_store import InMemoryVectorStore
+from app.utils.logger import configure_logging
 from app.workflow.pipeline import AnswerService
 
 log = logging.getLogger("ipsakti")
@@ -52,12 +56,19 @@ def make_translation(settings: Settings):
 
 def build_app(settings: Settings | None = None) -> FastAPI:
     settings = settings or Settings.from_env()
+    configure_logging(os.getenv("LOG_LEVEL", "INFO"))
     app = FastAPI(title="IP-SAKTI Sahayak", version="0.1.0")
     app.add_middleware(
         CORSMiddleware,
         allow_origins=["*"],
         allow_methods=["*"],
         allow_headers=["*"],
+    )
+    app.add_middleware(DisclaimerHeaderMiddleware)
+    app.add_middleware(
+        RateLimitMiddleware,
+        limit=int(os.getenv("RATE_LIMIT_PER_MIN", "300")),
+        window_seconds=60,
     )
 
     llm = make_llm(settings)

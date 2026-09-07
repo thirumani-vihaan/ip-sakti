@@ -12,6 +12,7 @@ from fastapi import APIRouter, Query, Request
 from pydantic import BaseModel
 
 from app.models.enums import Jurisdiction
+from app.utils.security import sanitize_text
 from app.workflow.schema import Source
 
 router = APIRouter()
@@ -37,6 +38,7 @@ def search(
     k: int = Query(5, ge=1, le=20),
 ) -> SearchResponse:
     svc = request.app.state.answer_service
+    q = sanitize_text(q)
     hits = svc.retriever.retrieve(q, k=k, jurisdiction=jurisdiction.value, as_of=date.today())
     return SearchResponse(
         query=q,
