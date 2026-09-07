@@ -34,10 +34,10 @@ def main() -> int:
     assert type(make_llm(real)).__name__ == "GeminiLLM"
     assert type(make_embeddings(real)).__name__ == "GeminiEmbeddings"
     assert type(make_translation(real)).__name__ == "BhashiniTranslation"
-    # ...and fall back to fakes without creds (what build_app used above)
+    # ...and fall back to credential-free offline providers without creds
     assert type(make_llm(Settings())).__name__ == "FakeLLM"
     assert type(make_embeddings(Settings())).__name__ == "FakeEmbeddings"
-    assert type(make_translation(Settings())).__name__ == "FakeTranslation"
+    assert type(make_translation(Settings())).__name__ == "OfflineGlossaryTranslation"
     assert type(app.state.providers["llm"]).__name__ == "FakeLLM"
 
     print("T011 OK: /api/chat grounded + abstain; /api/health; real provider factories reachable from build_app")

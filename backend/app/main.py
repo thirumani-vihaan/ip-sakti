@@ -45,9 +45,9 @@ def make_translation(settings: Settings):
         return BhashiniTranslation(
             settings.bhashini_user_id, settings.bhashini_ulca_key, settings.bhashini_inference_key
         )
-    from app.integrations.fakes import FakeTranslation
-    log.info("Translation provider: fixture mode")
-    return FakeTranslation()
+    from app.i18n.offline_translator import OfflineGlossaryTranslation
+    log.info("Translation provider: offline glossary mode (no Bhashini credentials)")
+    return OfflineGlossaryTranslation()
 
 
 def build_app(settings: Settings | None = None) -> FastAPI:
