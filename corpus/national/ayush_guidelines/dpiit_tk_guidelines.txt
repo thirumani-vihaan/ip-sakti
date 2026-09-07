@@ -1,0 +1,4 @@
+DPIIT Guidelines for Processing of Patent Applications relating to Traditional Knowledge and Biological Material; Traditional Knowledge Digital Library (TKDL) overview.
+Patent examiners search prior art, including the Traditional Knowledge Digital Library (TKDL), to determine whether claimed subject matter is traditional knowledge that is not an invention and is therefore not patentable under Section 3(p) of the Patents Act, 1970.
+Where an invention is based on or uses biological material, the applicant must disclose the source and geographical origin of that material in the patent specification (Section 10(4)(d)(ii)(D)), and access to the material may require approval of the National Biodiversity Authority under the Biological Diversity Act, 2002.
+This assessment flags a POSSIBLE traditional-knowledge risk for further expert review; it does not provide full TKDL access or a definitive prior-art clearance.

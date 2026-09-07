@@ -1,5 +1,229 @@
 [
-  {"id":"patents_1970_s3p","title":"Patents Act 1970 - Section 3(p)","url":"https://www.indiacode.nic.in/handle/123456789/1832","publisher":"India Code","version":"1970","path":"national/statutes/patents_s3p.txt","document_hash":"sample","status":"in_force","authority_level":"statute","license":"government","jurisdiction":"india","effective_date":"1972-04-20","domains":["patent","tk_risk"]},
-  {"id":"bda_2002_s7","title":"Biological Diversity Act 2002 - Section 7","url":"https://www.indiacode.nic.in/handle/123456789/2046","publisher":"India Code","version":"2023-amended","path":"national/statutes/bda_s7.txt","document_hash":"sample","status":"in_force","authority_level":"statute","license":"government","jurisdiction":"india","effective_date":"2004-04-01","domains":["abs"]},
-  {"id":"gi_act_1999","title":"Geographical Indications Act 1999","url":"https://www.indiacode.nic.in/handle/123456789/1955","publisher":"India Code","version":"1999","path":"national/statutes/gi_act.txt","document_hash":"sample","status":"in_force","authority_level":"statute","license":"government","jurisdiction":"india","effective_date":"2003-09-15","domains":["gi_trademark"]}
+  {
+    "id": "patents_1970_s3p",
+    "title": "Patents Act, 1970 - Section 3(p)",
+    "url": "https://www.indiacode.nic.in/handle/123456789/1832",
+    "publisher": "India Code",
+    "version": "1970",
+    "path": "national/statutes/patents_s3p.txt",
+    "document_hash": "sha256:02cf5d994262567d018fb414bdd16eed06120236f7b98be422bee5ed91682777",
+    "status": "in_force",
+    "authority_level": "statute",
+    "license": "government",
+    "jurisdiction": "india",
+    "effective_date": "1972-04-20",
+    "domains": [
+      "patent",
+      "tk_risk"
+    ]
+  },
+  {
+    "id": "bda_2002_s7",
+    "title": "Biological Diversity Act, 2002 - Section 7",
+    "url": "https://www.indiacode.nic.in/handle/123456789/2046",
+    "publisher": "India Code",
+    "version": "2023-amended",
+    "path": "national/statutes/bda_s7.txt",
+    "document_hash": "sha256:9877be44a7825bd3b3b46c1f8fe1794ad81702171032a1c79dfd7ac2f1d32eac",
+    "status": "in_force",
+    "authority_level": "statute",
+    "license": "government",
+    "jurisdiction": "india",
+    "effective_date": "2004-04-01",
+    "domains": [
+      "abs"
+    ]
+  },
+  {
+    "id": "gi_act_1999",
+    "title": "Geographical Indications of Goods Act, 1999",
+    "url": "https://www.indiacode.nic.in/handle/123456789/1955",
+    "publisher": "India Code",
+    "version": "1999",
+    "path": "national/statutes/gi_act.txt",
+    "document_hash": "sha256:2271d7f96f6021579da128f3e0335fc7062c73c29a74f63697cb101cb3aa961d",
+    "status": "in_force",
+    "authority_level": "statute",
+    "license": "government",
+    "jurisdiction": "india",
+    "effective_date": "2003-09-15",
+    "domains": [
+      "gi_trademark"
+    ]
+  },
+  {
+    "id": "trademarks_1999",
+    "title": "Trade Marks Act, 1999 - Sections 2 and 9",
+    "url": "https://www.indiacode.nic.in/handle/123456789/1993",
+    "publisher": "India Code",
+    "version": "1999",
+    "path": "national/statutes/trademarks_1999.txt",
+    "document_hash": "sha256:6a41079f610a415464f762aafc457d07787e4bc21ffd336f3549030b7ca63356",
+    "status": "in_force",
+    "authority_level": "statute",
+    "license": "government",
+    "jurisdiction": "india",
+    "effective_date": "2003-09-15",
+    "domains": [
+      "gi_trademark"
+    ]
+  },
+  {
+    "id": "designs_2000",
+    "title": "Designs Act, 2000 - Sections 2(d) and 4",
+    "url": "https://www.indiacode.nic.in/handle/123456789/1970",
+    "publisher": "India Code",
+    "version": "2000",
+    "path": "national/statutes/designs_2000.txt",
+    "document_hash": "sha256:b56e0416c4a08917c6cd2d0c0ce60039f752c706bbd1bd9038ebe6fb5bfbd806",
+    "status": "in_force",
+    "authority_level": "statute",
+    "license": "government",
+    "jurisdiction": "india",
+    "effective_date": "2001-05-11",
+    "domains": [
+      "gi_trademark"
+    ]
+  },
+  {
+    "id": "copyright_1957",
+    "title": "Copyright Act, 1957 - Sections 13 and 17",
+    "url": "https://www.indiacode.nic.in/handle/123456789/1367",
+    "publisher": "India Code",
+    "version": "1957",
+    "path": "national/statutes/copyright_1957.txt",
+    "document_hash": "sha256:5551e4025cc8a332a6a0fb1405166dc3484614854cee0e5cc99a8de54eccc15a",
+    "status": "in_force",
+    "authority_level": "statute",
+    "license": "government",
+    "jurisdiction": "india",
+    "effective_date": "1958-01-21",
+    "domains": [
+      "gi_trademark"
+    ]
+  },
+  {
+    "id": "dc_act_1940_ayush",
+    "title": "Drugs and Cosmetics Act, 1940 - Chapter IVA (ASU drugs)",
+    "url": "https://www.indiacode.nic.in/handle/123456789/2400",
+    "publisher": "India Code",
+    "version": "1940-chIVA",
+    "path": "national/statutes/dc_act_1940_ayush.txt",
+    "document_hash": "sha256:669104e33c49cc88190e1b360f50d6b6514e860b85d20b2e0f5f71fda03509e4",
+    "status": "in_force",
+    "authority_level": "statute",
+    "license": "government",
+    "jurisdiction": "india",
+    "effective_date": "1964-02-01",
+    "domains": [
+      "regulatory"
+    ]
+  },
+  {
+    "id": "dmra_1954",
+    "title": "Drugs and Magic Remedies (Objectionable Advertisements) Act, 1954 - Sections 3 and 4",
+    "url": "https://www.indiacode.nic.in/handle/123456789/1391",
+    "publisher": "India Code",
+    "version": "1954",
+    "path": "national/statutes/dmra_1954.txt",
+    "document_hash": "sha256:68ddf190d3c4fa7f1ef9c08a053117f0c1e8e3635e7fed4bb2d7b969e6401861",
+    "status": "in_force",
+    "authority_level": "statute",
+    "license": "government",
+    "jurisdiction": "india",
+    "effective_date": "1955-04-01",
+    "domains": [
+      "regulatory"
+    ]
+  },
+  {
+    "id": "fssai_nutraceutical",
+    "title": "FSS Act 2006 s.22 + Nutraceutical Regulations 2016",
+    "url": "https://www.fssai.gov.in/",
+    "publisher": "FSSAI",
+    "version": "2016",
+    "path": "national/ayush_guidelines/fssai_nutraceutical.txt",
+    "document_hash": "sha256:8ca7305c029c1738d5f5aa380def6def3283302bf4ac47d79107b75e58546ada",
+    "status": "in_force",
+    "authority_level": "rule",
+    "license": "government",
+    "jurisdiction": "india",
+    "effective_date": "2016-01-01",
+    "domains": [
+      "regulatory"
+    ]
+  },
+  {
+    "id": "dpiit_tk_guidelines",
+    "title": "DPIIT Guidelines on TK & Biological Material; TKDL overview",
+    "url": "https://ipindia.gov.in/",
+    "publisher": "DPIIT / CGPDTM",
+    "version": "2005",
+    "path": "national/ayush_guidelines/dpiit_tk_guidelines.txt",
+    "document_hash": "sha256:7ea8801dc2d1631d2fcfaa3ecd814a65ec7be5350a9169f00f56c73dd26e11ea",
+    "status": "in_force",
+    "authority_level": "guideline",
+    "license": "government",
+    "jurisdiction": "india",
+    "effective_date": "2005-01-01",
+    "domains": [
+      "tk_risk",
+      "patent"
+    ]
+  },
+  {
+    "id": "trips_art27",
+    "title": "TRIPS Agreement - Articles 27 and 29",
+    "url": "https://www.wto.org/english/docs_e/legal_e/27-trips_e.htm",
+    "publisher": "WTO",
+    "version": "1994",
+    "path": "international/trips/trips_art27.txt",
+    "document_hash": "sha256:7fb0cb10fc083c5b1b3462a9be0a584c7699d7750ed953f59f68fcac9a020678",
+    "status": "in_force",
+    "authority_level": "treaty",
+    "license": "public-domain",
+    "jurisdiction": "international",
+    "effective_date": "1995-01-01",
+    "domains": [
+      "international",
+      "patent",
+      "tk_risk"
+    ]
+  },
+  {
+    "id": "pct_overview",
+    "title": "Patent Cooperation Treaty (PCT) - overview",
+    "url": "https://www.wipo.int/pct/en/",
+    "publisher": "WIPO",
+    "version": "1970",
+    "path": "international/pct/pct_overview.txt",
+    "document_hash": "sha256:d556b1e3f8f00b55ea952f9c8e81e7fa34eb4930b505f188d850744bdeeb8067",
+    "status": "in_force",
+    "authority_level": "treaty",
+    "license": "public-domain",
+    "jurisdiction": "international",
+    "effective_date": "1978-01-24",
+    "domains": [
+      "international",
+      "patent"
+    ]
+  },
+  {
+    "id": "nagoya_cbd",
+    "title": "CBD and Nagoya Protocol on ABS - overview",
+    "url": "https://www.cbd.int/abs/",
+    "publisher": "CBD Secretariat",
+    "version": "2010",
+    "path": "international/nagoya/nagoya_cbd.txt",
+    "document_hash": "sha256:b2c050b0173a78ba0a2699d8b7c14c070ca95d307d8463d1cdaa050f2cb2d398",
+    "status": "in_force",
+    "authority_level": "treaty",
+    "license": "public-domain",
+    "jurisdiction": "international",
+    "effective_date": "2014-10-12",
+    "domains": [
+      "international",
+      "abs"
+    ]
+  }
 ]

@@ -24,14 +24,19 @@ def main() -> int:
     def top(q: str, k: int = 3, jur=None):
         return store.query(emb.embed([q])[0], k=k, jurisdiction=jur)
 
-    h = top("traditional knowledge patent not an invention barred")
+    # a query using text distinctive to Patents s.3(p) must surface that provision first
+    h = top("aggregation or duplication of known properties of traditionally known component patentable")
     assert h and h[0].evidence_id.startswith("patents_1970_s3p"), f"patents expected, got {h[0].evidence_id}"
 
     h2 = top("biological resource commercial prior intimation Form I State Biodiversity Board")
     assert h2 and h2[0].evidence_id.startswith("bda_2002_s7"), f"bda expected, got {h2[0].evidence_id}"
 
-    assert top("anything", jur="india"), "india filter should return hits"
-    assert top("anything", jur="international") == [], "international filter should be empty here"
+    # jurisdiction filter: the corpus now includes international instruments (TRIPS/PCT/Nagoya)
+    _INTL = {"trips_art27", "pct_overview", "nagoya_cbd"}
+    intl = top("anything", jur="international")
+    assert intl and all(x.evidence_id.split("#")[0] in _INTL for x in intl), "international filter must return only intl docs"
+    india = top("anything", jur="india")
+    assert india and all(x.evidence_id.split("#")[0] not in _INTL for x in india), "india filter must exclude intl docs"
 
     order1 = [x.evidence_id for x in top("traditional knowledge")]
     order2 = [x.evidence_id for x in top("traditional knowledge")]

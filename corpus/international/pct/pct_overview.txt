@@ -1,0 +1,4 @@
+Patent Cooperation Treaty (PCT) - overview.
+The PCT enables an applicant to seek patent protection for an invention in many countries by filing a single international patent application, instead of filing separate national applications at the outset.
+A PCT application provides an international search report and a written opinion on patentability, and defers the decision and cost of pursuing protection in individual countries. To obtain patents, the applicant must enter the "national phase" before each national or regional patent office, generally within 30 or 31 months from the priority date.
+The PCT does not grant an "international patent"; patents are still granted separately by each national or regional office under its own law. For an Indian applicant, the PCT is the common route to pursue patents abroad while retaining the Indian priority date.
