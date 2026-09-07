@@ -8,12 +8,13 @@ from typing import Optional
 from app.integrations.provider import (
     CircuitBreaker, EmbeddingProvider, LLMProvider, ProviderError,
 )
-from app.models.enums import AnswerMode
+from app.models.enums import AnswerMode, EvidenceStrength
 from app.offline.cache import DemoCache
 from app.retrieval.hybrid import HybridRetriever
 from app.workflow.abstention import abstention_response
 from app.workflow.citation_validator import validate_claims
 from app.workflow.domain_router import abs_triggered, route
+from app.workflow.escalation import escalation_warning
 from app.workflow.evidence_strength import score_strength
 from app.workflow.generation import generate_grounded
 from app.workflow.reference_resolver import extract_section_refs
@@ -124,6 +125,8 @@ class AnswerService:
         valid, tr_warnings = self._localize(valid, req.language)
         warnings = warnings + tr_warnings + self._domain_warnings(req.query)
         strength = score_strength(valid, sources, extract_section_refs(req.query))
+        if strength == EvidenceStrength.LIMITED:
+            warnings = warnings + [escalation_warning()]
         return ChatResponse(
             claims=valid, sources=sources, warnings=warnings,
             answer_mode=AnswerMode.LIVE, evidence_strength=strength,
@@ -151,6 +154,8 @@ class AnswerService:
             warnings = warnings + tr_warnings
         warnings = warnings + self._domain_warnings(req.query)
         strength = score_strength(valid, sources, extract_section_refs(req.query))
+        if strength == EvidenceStrength.LIMITED:
+            warnings = warnings + [escalation_warning()]
         return ChatResponse(
             claims=valid, sources=sources, warnings=warnings,
             answer_mode=AnswerMode.EXTRACTIVE, evidence_strength=strength,

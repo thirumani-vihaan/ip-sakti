@@ -4,6 +4,7 @@ from __future__ import annotations
 from datetime import date
 
 from app.models.enums import AnswerMode, EvidenceStrength
+from app.workflow.escalation import escalation_warning
 from app.workflow.schema import ChatRequest, ChatResponse, Warning
 
 _MESSAGES = {
@@ -20,7 +21,10 @@ def abstention_response(
     corpus_version: str,
     extra_warnings: list[Warning] | None = None,
 ) -> ChatResponse:
-    warns = list(extra_warnings or []) + [Warning(code=reason, message=_MESSAGES.get(reason, reason))]
+    warns = list(extra_warnings or []) + [
+        Warning(code=reason, message=_MESSAGES.get(reason, reason)),
+        escalation_warning(),
+    ]
     return ChatResponse(
         claims=[], sources=[], warnings=warns,
         answer_mode=AnswerMode.LIVE, evidence_strength=EvidenceStrength.LIMITED,
