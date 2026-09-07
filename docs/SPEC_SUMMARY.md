@@ -29,7 +29,7 @@ A multilingual, **citation-backed** AI triage assistant for Intellectual Propert
 - LLM + embeddings: Google Gemini, with local `sentence-transformers` extractive fallback.
 - Multilingual: Bhashini (Hindi/Telugu; voice optional, flagged).
 - Compliance: versioned deterministic rule engine.
-- Packaging: Docker Compose (frontend, backend, chromadb + healthcheck).
+- Packaging: Docker Compose (frontend nginx + backend); in-memory retrieval by default, Chroma available for scale-up.
 
 ## The five design principles (product guarantees)
 1. No claim without a validated citation.

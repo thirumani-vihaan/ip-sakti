@@ -45,11 +45,11 @@ preservation = pass. Numbers are reproducible offline.
   request-id headers, structured logging, and no user accounts (privacy by design).
 
 ## Architecture
-React + Vite frontend; FastAPI backend; hybrid retrieval (Chroma vector store +
-BM25, reciprocal-rank fusion) over a version-tracked corpus with provenance
-hashes; a deterministic, source-citing rule engine (ABS + classification);
-grounded generation with a citation validator; circuit-breaker + extractive
-fallback. Providers are swapped in only when their credentials are present.
+React + Vite frontend; FastAPI backend; hybrid retrieval (in-memory vector store +
+BM25, reciprocal-rank fusion; Chroma available for persistence) over a version-tracked
+corpus with provenance hashes; a deterministic, source-citing rule engine (ABS +
+classification); grounded generation with a citation validator; circuit-breaker +
+extractive fallback. Providers are swapped in only when their credentials are present.
 
 ## Runs with no keys
 The whole system - retrieval, grounding, abstention, rules, multilingual glossary,
