@@ -36,6 +36,9 @@ _STOP = {
     "up", "down", "out", "off", "before", "after", "above", "below", "between", "during",
     "say", "says", "said", "use", "used", "using", "get", "got", "want", "need", "know",
     "last", "night", "today", "tonight", "won", "win", "make", "made", "like",
+    "previous", "current", "various", "certain", "general", "particular", "following",
+    "given", "without", "within", "upon", "among", "amongst", "across", "along",
+    "toward", "towards", "unless", "whereas", "either", "neither", "per", "via", "etc",
 }
 _WORD_RE = re.compile(r"[a-z0-9]+")
 
@@ -108,10 +111,13 @@ class AnswerService:
         if not hits:
             return abstention_response("out_of_corpus", req, as_of, self.corpus_version)
 
-        # relevance gate: out-of-corpus if the query shares no content word with any hit
+        # relevance gate: keep only hits that share a content word with the query, and
+        # pass ONLY those to generation, so a wholly-unrelated statute is never cited.
         q_terms = _content_tokens(req.query)
-        if not any(q_terms & _content_tokens(h.text) for h in hits):
+        relevant = [h for h in hits if q_terms & _content_tokens(h.text)]
+        if not relevant:
             return abstention_response("out_of_corpus", req, as_of, self.corpus_version)
+        hits = relevant
 
         # Sensitive-Invention mode: never call an external LLM; process locally only.
         if req.sensitive:

@@ -15,13 +15,12 @@ def score_strength(
         return EvidenceStrength.LIMITED
     exact = any(_norm(s.section) and _norm(s.section) in query_section_refs for s in sources)
     best_auth = min(_AUTH_RANK.get(s.authority, 9) for s in sources)
-    agreement = len({s.id for s in sources})
-    # HIGH: a primary source (statute) that is either the exact section asked, or corroborated.
-    if best_auth == 0 and (exact or agreement >= 2):
+    # HIGH only when a primary source (statute) is the exact section the user asked about —
+    # distinct unrelated sources are NOT treated as corroboration.
+    if best_auth == 0 and exact:
         return EvidenceStrength.HIGH
-    # MODERATE: primary/secondary authority (statute/rule/notification), an exact-section hit,
-    # or multiple corroborating sources.
-    if best_auth <= 2 or exact or agreement >= 2:
+    # MODERATE: a primary/secondary authority (statute/rule/notification) or an exact-section hit.
+    if best_auth <= 2 or exact:
         return EvidenceStrength.MODERATE
-    # LIMITED: a single low-authority source (guideline/treaty/article/unknown) with no exact match.
+    # LIMITED: only lower-authority material (guideline/treaty/article) with no exact match.
     return EvidenceStrength.LIMITED

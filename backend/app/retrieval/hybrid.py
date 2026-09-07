@@ -65,5 +65,12 @@ class HybridRetriever:
                 h.evidence_id,
             )
         )
-        # fused RRF score is exposed on the hit for downstream evidence-strength
-        return [h.model_copy(update={"score": scores[h.evidence_id]}) for h in eligible[:k]]
+        # fused RRF score is exposed on the hit; the requested as_of is stamped onto each
+        # Source so the UI "law as of" date is consistent everywhere (badge and drawer).
+        return [
+            h.model_copy(update={
+                "score": scores[h.evidence_id],
+                "source": h.source.model_copy(update={"as_of": as_of}),
+            })
+            for h in eligible[:k]
+        ]
