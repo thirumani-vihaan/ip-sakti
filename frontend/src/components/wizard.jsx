@@ -38,8 +38,19 @@ export function AbsWizard({ submit = postAbsCheck }) {
   const [facts, setFacts] = useState({});
   const [result, setResult] = useState(null);
   const [busy, setBusy] = useState(false);
+  const [error, setError] = useState("");
   const set = (k) => (e) => setFacts({ ...facts, [k]: e.target.value });
-  async function run() { setBusy(true); try { setResult(await submit(facts)); } finally { setBusy(false); } }
+  async function run() {
+    setBusy(true);
+    setError("");
+    try {
+      setResult(await submit(facts));
+    } catch (e) {
+      setError(e.message || "Request failed. Please try again.");
+    } finally {
+      setBusy(false);
+    }
+  }
   return (
     <div className="wizard">
       <Select label="Resource origin" testid="resource_origin" value={facts.resource_origin} onChange={set("resource_origin")} options={["", "india", "foreign"]} />
@@ -47,6 +58,7 @@ export function AbsWizard({ submit = postAbsCheck }) {
       <Select label="Applicant" testid="applicant" value={facts.applicant} onChange={set("applicant")} options={["", "indian_entity", "foreign"]} />
       <Select label="Traditional-knowledge association" testid="tk_association" value={facts.tk_association} onChange={set("tk_association")} options={["", "yes", "no"]} />
       <button className="btn" data-testid="abs-run" onClick={run} disabled={busy}>{busy ? "Checking..." : "Check obligations"}</button>
+      {error && <p className="error">{error}</p>}
       <RuleResultCard result={result} />
     </div>
   );
@@ -56,8 +68,19 @@ export function ClassificationWizard({ submit = postClassify }) {
   const [facts, setFacts] = useState({});
   const [result, setResult] = useState(null);
   const [busy, setBusy] = useState(false);
+  const [error, setError] = useState("");
   const set = (k) => (e) => setFacts({ ...facts, [k]: e.target.value });
-  async function run() { setBusy(true); try { setResult(await submit(facts)); } finally { setBusy(false); } }
+  async function run() {
+    setBusy(true);
+    setError("");
+    try {
+      setResult(await submit(facts));
+    } catch (e) {
+      setError(e.message || "Request failed. Please try again.");
+    } finally {
+      setBusy(false);
+    }
+  }
   return (
     <div className="wizard">
       <Select label="In an authoritative First-Schedule text" testid="in_first_schedule" value={facts.in_first_schedule} onChange={set("in_first_schedule")} options={["", "yes", "no"]} />
@@ -68,6 +91,7 @@ export function ClassificationWizard({ submit = postClassify }) {
         <Select label="Purified plant-derived actives (optional)" testid="plant_derived" value={facts.plant_derived} onChange={set("plant_derived")} options={["", "yes", "no"]} />
       )}
       <button className="btn" data-testid="classify-run" onClick={run} disabled={busy}>{busy ? "Classifying..." : "Classify"}</button>
+      {error && <p className="error">{error}</p>}
       <RuleResultCard result={result} />
     </div>
   );

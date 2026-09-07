@@ -40,7 +40,7 @@ export function UploadPanel() {
           {busy ? "Analyzing..." : "Choose a file"}
         </button>
         <input ref={inputRef} type="file" accept=".pdf,.txt,.md,.html,.htm" style={{ display: "none" }}
-          onChange={(e) => handleFile(e.target.files[0])} />
+          onChange={(e) => { handleFile(e.target.files[0]); e.target.value = ""; }} />
         <p className="hint">or drag &amp; drop — PDF, TXT, HTML (max 5 MB)</p>
       </div>
       {error && <p className="error">{error}</p>}
