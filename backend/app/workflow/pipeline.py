@@ -21,10 +21,21 @@ from app.workflow.reference_resolver import extract_section_refs
 from app.workflow.schema import ChatRequest, ChatResponse, Claim, Warning
 
 _STOP = {
+    # Standard English stopwords for the TOPICAL relevance gate only (not used by BM25).
+    # Kept deliberately broad so common function words never fake a corpus match.
     "a", "an", "the", "to", "of", "in", "on", "at", "for", "and", "or", "is", "are",
-    "be", "can", "i", "my", "how", "do", "does", "what", "about", "with", "you", "your",
-    "this", "that", "it", "as", "by", "from", "was", "were", "will", "shall", "any", "such",
-    "under", "say", "says", "use", "used",
+    "be", "been", "being", "am", "was", "were", "will", "shall", "would", "should", "could",
+    "can", "may", "might", "must", "do", "does", "did", "done", "have", "has", "had", "having",
+    "i", "me", "my", "mine", "we", "us", "our", "ours", "you", "your", "yours",
+    "he", "him", "his", "she", "her", "hers", "it", "its", "they", "them", "their", "theirs",
+    "this", "that", "these", "those", "who", "whom", "whose", "which", "what", "where", "when",
+    "why", "how", "whether", "as", "by", "from", "with", "about", "into", "onto", "over", "under",
+    "again", "further", "then", "than", "once", "here", "there", "all", "any", "both", "each",
+    "few", "more", "most", "other", "some", "such", "no", "nor", "not", "only", "own", "same",
+    "so", "too", "very", "just", "also", "but", "because", "until", "while", "if", "else",
+    "up", "down", "out", "off", "before", "after", "above", "below", "between", "during",
+    "say", "says", "said", "use", "used", "using", "get", "got", "want", "need", "know",
+    "last", "night", "today", "tonight", "won", "win", "make", "made", "like",
 }
 _WORD_RE = re.compile(r"[a-z0-9]+")
 

@@ -34,7 +34,7 @@ def run() -> int:
     abst_hits, abst_total, cit_ok, cit_total = 0, 0, 0, 0
     for case in cases:
         t = time.perf_counter()
-        resp = svc.answer(ChatRequest(query=case["query"]))
+        resp = svc.answer(ChatRequest(query=case["query"], jurisdiction=case.get("jurisdiction", "india")))
         latencies.append(time.perf_counter() - t)
         ids = {s.id for s in resp.sources}
         for c in resp.claims:
