@@ -11,7 +11,7 @@ Every external dependency, its gotchas, the injectable interface it sits behind,
 - **Offline behavior:** default fake unless `GEMINI_API_KEY` set; logs fixture mode.
 
 ## 2. Google Gemini — Embeddings
-- **Purpose:** vector embeddings for semantic retrieval (`text-embedding-004`).
+- **Purpose:** vector embeddings for semantic retrieval (`gemini-embedding-001`).
 - **Credential:** `GEMINI_API_KEY` (same).
 - **Gotchas:** dimension must match the Chroma collection; rate limits; batch calls.
 - **Interface:** `EmbeddingProvider` (real: `GeminiEmbeddings`; fake: `FakeEmbeddings` = deterministic seeded vectors).

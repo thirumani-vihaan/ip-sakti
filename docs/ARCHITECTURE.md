@@ -17,15 +17,17 @@ Modules, responsibilities, data flow, boundaries. State is immutable + explicitl
 | `workflow/citation_validator.py` | Reject unknown IDs; verify facts vs source; drop unsupported → abstain. |
 | `workflow/evidence_strength.py` | Composite evidence-strength scoring. |
 | `workflow/abstention.py` | Fail-closed decision logic. |
-| `retrieval/{hybrid,vector_store,keyword_index,fallback_index,chunking,embeddings}.py` | Hybrid BM25+vector retrieval, legal-aware chunking, local fallback index. |
+| `workflow/escalation.py` | Escalate-to-human-facilitator signal on abstention / low-confidence answers. |
+| `workflow/refs.py` | Shared Section/Form reference parsing (single source of truth). |
+| `retrieval/{hybrid,vector_store,keyword_index,chunking}.py` | Hybrid BM25+vector retrieval (RRF) + legal-aware chunking. |
 | `rules/{engine,dsl,abs_rules,classification_rules}.py` | Deterministic versioned rule engine + rule sets. |
-| `corpus/{manifest,ingestion,sources}.py` | Versioned corpus + provenance + ingestion. |
-| `integrations/{provider,gemini,bhashini}.py` | Real SDK clients behind provider interfaces + circuit breaker. |
-| `i18n/{glossary,translate}.py` | Locked legal glossary + term-preserving translation. |
-| `offline/{precompute,cache}.py` | Persist embeddings/indexes; approved demo-answer cache. |
-| `api/routes/*` | Thin HTTP layer over the workflow + rule engine. |
-| `api/middleware/*` | Disclaimer injection, global/per-IP rate budget, request→release pinning. |
-| `utils/{pdf_generator,logger,security}.py` | PDF export from validated object; redacted logging; input sanitization / injection boundary. |
+| `corpus/{manifest,ingestion,sources}.py` | Versioned corpus + provenance + ingestion + public source registry. |
+| `integrations/{provider,gemini,bhashini,fakes,local_embeddings}.py` | Provider interfaces + real SDK clients + circuit breaker; deterministic fakes; optional local sentence-transformers embedder. |
+| `i18n/{glossary,translate,offline_translator}.py` | Locked legal glossary + term-preserving translation + credential-free offline glossary translator. |
+| `offline/cache.py` | Approved demo-answer cache (outage fallback). |
+| `api/routes/*` | Thin HTTP layer: `/api/chat`, `/search`, `/classify`, `/abs/check`, `/roadmap`, `/compare`, `/analyze`, `/sources`, `/escalate`, `/export/pdf`, `/health`. |
+| `api/middleware/*` | Always-on disclaimer + request-id headers; per-client rate budget (X-Forwarded-For aware). |
+| `utils/{pdf_generator,logger,security}.py` | PDF export from validated object; structured logging; input sanitization / injection boundary. |
 
 ## Frontend (`frontend/src/`)
 React 18 + Vite. Chat + SourceDrawer + badges (evidence-strength, law-as-of, answer-mode), jurisdiction toggle, ClassificationWizard, ABSWizard, Roadmap, ComparisonTool, Sensitive-Invention toggle, disclaimer banner. Talks to the backend via a mockable API client (Vitest + RTL for offline tests).
@@ -54,7 +56,7 @@ Compliance questions additionally run `rules/engine` (deterministic). Roadmap/co
 
 ## State & concurrency
 - Workflow state is a typed, immutable object threaded through steps; each step returns a new value, never mutates in place.
-- **Streaming answer path:** status/progress events stream first; the FINAL prose is rendered ONLY after `citation_validator` completes. Unvalidated claims are never streamed to the user. (Sequential: validate → then render; not concurrent.)
+- **Validate-then-render:** the final response is returned ONLY after `citation_validator` completes; unvalidated claims are never surfaced (synchronous request/response, no partial or unvalidated output).
 - Retrieval is synchronous per request; provider calls have timeouts + circuit breaker; corpus is never re-indexed at startup (only count/hash verified).
 
 ## Offline / degraded path

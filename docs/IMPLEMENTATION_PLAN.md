@@ -457,9 +457,9 @@ Each phase produces a working, demonstrable system that the next builds on.
 - **`config.py`** — settings from `.env`: `GEMINI_API_KEY`, `CHROMA_HOST`, `BHASHINI_API_KEY`, feature flags.
 - **`workflow/schema.py`, `models/schemas.py`, `models/enums.py`** — typed answer contract (ChatResponse, Claim, Source) and enums.
 - **`corpus/manifest.py`, `ingestion.py`, `sources.py`** + **`scripts/ingest_corpus.py`** — versioned corpus with provenance; PDF (PyMuPDF) / HTML (BeautifulSoup) -> legal-aware chunks -> indexes.
-- **`retrieval/chunking.py`, `embeddings.py`, `vector_store.py`, `keyword_index.py`, `hybrid.py`** — hybrid retrieval (Chroma + BM25, RRF); embeddings via `text-embedding-004` with local `sentence-transformers` fallback.
+- **`retrieval/chunking.py`, `local_embeddings.py`, `vector_store.py`, `keyword_index.py`, `hybrid.py`** — hybrid retrieval (Chroma + BM25, RRF); embeddings via `gemini-embedding-001` with an optional local `sentence-transformers` tier and a deterministic fixture fallback.
 - **`workflow/reference_resolver.py`, `generation.py`, `citation_validator.py`** — exact-ref resolution; grounded generation on evidence IDs only; citation + fact validation.
-- **`integrations/gemini.py`, `provider.py`** — Gemini client (`gemini-2.0-flash` fast / `gemini-2.5-pro` complex) behind a provider abstraction.
+- **`integrations/gemini.py`, `provider.py`** — Gemini client (`gemini-flash-latest`) behind a provider abstraction with a circuit breaker.
 - **`api/routes/chat.py`, `search.py`, `health.py`** — core endpoints.
 - **`eval/testset.jsonl`, `run_eval.py`** — evaluation harness from day one.
 - **Frontend:** `App.jsx`, `index.css` (design system), `pages/Chat.jsx`, `components/chat/*`, `SourceDrawer.jsx` — minimal cited chat.

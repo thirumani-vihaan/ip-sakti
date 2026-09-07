@@ -53,3 +53,15 @@ export GEMINI_API_KEY=your_key_here      # optional; omit to run offline
 docker compose up --build
 ```
 The backend image installs the Gemini SDK, and `docker-compose.yml` passes `GEMINI_API_KEY` (and the `BHASHINI_*` vars) through from your shell. CORS is enabled so the frontend at `:5173` can call the API.
+
+## Optional: offline semantic embeddings (no key)
+For better offline retrieval without any API key, enable a local model:
+
+```bash
+pip install sentence-transformers
+# then start the backend with:
+USE_LOCAL_EMBEDDINGS=1 uvicorn app.main:build_app --factory   # PowerShell: $env:USE_LOCAL_EMBEDDINGS='1'
+```
+
+When the flag is set and the package is installed, retrieval uses `all-MiniLM-L6-v2` locally; otherwise it falls back to the deterministic fixture embedder. A `GEMINI_API_KEY` always takes precedence.
+

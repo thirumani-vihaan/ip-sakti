@@ -1,66 +1,95 @@
-# FINAL_REPORT
+# Final Report — IP-SAKTI Sahayak
 
-IP-SAKTI Sahayak — baseline build complete. Every feature is committed **and pushed** to
-`origin/main`, sole-authored (no Copilot contributor trailer), and the entire suite runs
-**offline on fixtures with zero credentials**.
+A multilingual, citation-grounded AI assistant for Ayurveda Intellectual Property and
+regulatory guidance. Smart India Hackathon 2026, Ministry of AYUSH.
 
-## Status: 25 / 25 acceptance tests PASS
+**Status: complete working prototype.** Backend and frontend implemented, tested, and
+pushed to `origin/main`. The entire system runs offline with no API keys; Gemini and
+Bhashini are optional and additive. All commits are sole-authored.
 
-| Task | Feature |
-|---|---|
-| T000 | Repo scaffold + git + CI-style acceptance harness |
-| T001 | Immutable domain contract (schema + enums) |
-| T002 | Provider interfaces + fixture-backed fakes |
-| T003 | Corpus manifest + ingestion + sample corpus (provenance, licence enforced) |
-| T004 | Legal-aware chunking (provisos kept with parent) |
-| T005 | Vector store (in-memory double + Chroma real) + retrieval |
-| T006 | BM25 keyword index |
-| T007 | Hybrid retrieval + exact-ref resolver (RRF, in-force eligibility) — Recall@3 = 1.00 |
-| T008 | Grounded generation (evidence-id-only prompt) |
-| **T009** | **Citation validator (grounding core)** — rejects unknown ids / ref-mismatch / fabrication |
-| T010 | Evidence strength + fail-closed abstention + answer pipeline |
-| T011 | `/api/chat` + `/api/health` + provider wiring |
-| T012 | Temporal current-law (as_of eligibility; future/repealed excluded) |
-| T013 | Offline resilience (extractive fallback, circuit breaker, demo cache) |
-| T014 | Deterministic rule engine + ABS + classification rule sets |
-| T015 | Multi-label domain router (ABS mandatory trigger, unevaluated disclosure) |
-| T016 | `/api/abs/check` + `/api/classify` |
-| T017 | i18n glossary + term-preserving translation |
-| T018 | `/api/roadmap` + `/api/compare` (reuse validated answers) |
-| T019 | Sensitive-Invention mode (local/extractive, zero external LLM calls) |
-| T020 | PDF export from the validated response |
-| T021 | React chat UI (source drawer, badges, abstention) + Vitest |
-| T022 | ABS + classification wizards + Vitest |
-| T023 | Compare tool + jurisdiction/language/sensitive controls + Vitest |
-| T024 | Eval harness + demo smoke suite |
-| T025 | docker-compose + Dockerfiles + verify_release + REAL_API_SETUP |
+## Headline results
+- **35 / 35** backend acceptance checks pass (offline, no credentials).
+- **7 / 7** frontend component tests pass; production `vite build` succeeds.
+- **Eval gates (18-case set):** Recall@5 = 1.00, Citation validity = 1.00,
+  Safe abstention = 1.00, legal-term preservation = pass.
+- One-command end-to-end smoke covers all 11 API route groups.
 
-## Measured metrics (offline eval, `eval/run_eval.py`)
-- **Recall@5 (answerable): 1.00** (gate 0.8)
-- **Citation validity: 1.00** — fabricated/unsupported citations = **0** (the grounding invariant holds)
-- **Correct abstention (out-of-scope): 1.00** — including a prompt-injection case
-- **Legal-term preservation: pass** (statute/section refs preserved across Hindi/Telugu)
-- Latency p50/p95: sub-millisecond on fixtures
+## What was built
+### Retrieval & grounding
+Hybrid retrieval (Chroma vector store + BM25, reciprocal-rank fusion) over a
+version-tracked corpus with SHA-256 provenance hashes; exact Section/Form reference
+resolution; jurisdiction + in-force(as_of) filtering before ranking; grounded
+generation constrained to server-assigned evidence ids; a citation validator that
+rejects unknown ids, fabricated sources, and reference mismatches; fail-closed
+abstention; a composite evidence-strength (High/Moderate/Limited) confidence indicator.
 
-## Wiring verification (loop §2.4) — real factories reachable from `build_app()`
-| Dependency | Reachable from entry point? | Evidence |
-|---|---|---|
-| LLMProvider (GeminiLLM) | OK | T011: `make_llm(creds)` → GeminiLLM; fixture fallback verified |
-| EmbeddingProvider (GeminiEmbeddings) | OK | T011: `make_embeddings(creds)` → GeminiEmbeddings |
-| TranslationProvider (BhashiniTranslation) | OK | T011: `make_translation(creds)` → BhashiniTranslation |
-| VectorStore | OK | built in `build_app`; Chroma real variant available |
-| KeywordIndex (BM25Index) | OK | built in `build_app` |
+### Deterministic compliance
+A versioned, source-citing rule engine (same facts -> same result) powering the ABS
+compliance helper and the six-category formulation classifier (classical, proprietary,
+phytopharmaceutical, new drug, nutraceutical, cosmetic). It asks only the minimum
+missing facts and never lets the LLM do legal math.
 
-## Confirmations
-- Full suite passes on **fixtures only, zero real credentials**.
-- ARCHITECTURE.md / INTERFACES.md match the code (schema in `workflow/schema.py`, one entry point `build_app`).
-- `docs/REAL_API_SETUP.md` is current: setting `GEMINI_API_KEY` / Bhashini keys is the entire handoff to live mode; no code change.
-- Every feature and fix committed and pushed; `git log origin/main` is current.
+### Coverage
+Six domain profiles over 13 documents: Patents s.3(p), Biodiversity Act s.7, GI Act,
+Trade Marks Act, Designs Act, Copyright Act, Drugs & Cosmetics Act (AYUSH), Drugs and
+Magic Remedies Act, FSSAI nutraceutical regulation, DPIIT/TKDL guidance, and the
+international TRIPS, PCT and Nagoya/CBD instruments (jurisdiction-separated).
 
-## Deliberately out of scope (plan's Future Enhancements)
-Full legal-version history, expert-panel benchmark, automated NLI entailment, Neo4j graph,
-live scrapers, accounts/analytics, OAuth connectors, broad voice/22-language, full TKDL.
+### Safety, guardrails & privacy
+Escalate-to-a-human-IP-facilitator path on abstention/low-confidence; standing
+"information, not legal advice" disclaimer on every answer and as a response header;
+input sanitization + prompt-injection heuristic; per-client rate limiting
+(X-Forwarded-For aware); structured logging; request-id headers for audit; no user
+accounts (privacy by design, DPDP-aligned).
 
-## Deviations logged
-- Vector store: in-memory double is the offline test surface; `ChromaVectorStore` is the real impl.
-- PDF: reportlab instead of weasyprint (pure-Python; avoids Windows GTK dependency).
+### Multilingual (Bhashini-optional)
+Full neural translation via Bhashini when configured; otherwise a credential-free
+offline glossary translator that localises legal terms and preserves statute/section
+references verbatim. Script-based auto language detection (EN/HI/TE).
+
+### Endpoints
+`/api/chat`, `/api/search`, `/api/classify`, `/api/abs/check`, `/api/roadmap`,
+`/api/compare`, `/api/analyze` (ephemeral document analysis, never added to the KB),
+`/api/sources` (provenance registry), `/api/escalate`, `/api/export/pdf`, `/api/health`.
+
+### Frontend
+React 18 + Vite. A professional legal-tech UI: hero with the core guarantees, tabbed
+sections (Assistant, Classify, ABS, Compare, Roadmap, Analyze, Sources), grounded chat
+with clickable citations + source drawer + confidence/answer-mode/law-as-of badges,
+per-answer disclaimer, escalation modal, query history (localStorage), PDF export,
+jurisdiction toggle, language selector, and Sensitive-Invention mode.
+
+## Provider tiers (graceful degradation)
+| Capability | Live (key present) | Offline default | Deterministic test double |
+|---|---|---|---|
+| LLM | GeminiLLM | — | FakeLLM (grounded by construction) |
+| Embeddings | GeminiEmbeddings | LocalEmbeddings (opt-in) | FakeEmbeddings |
+| Translation | BhashiniTranslation | OfflineGlossaryTranslation | FakeTranslation |
+| Vector store | Chroma (cosine) | InMemoryVectorStore | InMemoryVectorStore |
+
+## Testing & evaluation
+- Acceptance harness `tools/acceptance/T001..T035` (contracts, retrieval, rules,
+  temporal, resilience, translation, search, hardening, upload, escalation, embeddings).
+- `backend/tests/smoke_demo.py` — one-command end-to-end over every endpoint.
+- `eval/run_eval.py` — Recall@k, citation validity, safe abstention, term preservation,
+  latency; exits non-zero unless the gates hold.
+- `frontend` — Vitest + React Testing Library, dependency-injected API.
+
+## Deployment
+`docker compose up --build`: backend image installs the live SDK and runs uvicorn with
+`--proxy-headers`; the frontend is a multi-stage production build served by nginx that
+proxies `/api` to the backend (same-origin, no CORS reliance). Corpus integrity is
+verified at startup.
+
+## Deliberately out of scope (future roadmap)
+Relational knowledge graph + agentic multi-source orchestration; automated law-change
+tracking / scrapers; paid-source connectors; full 22-language + voice; full TKDL access;
+expert-panel benchmark and NLI entailment scoring.
+
+## Known limitations
+- Offline retrieval uses a deterministic fixture embedder unless `USE_LOCAL_EMBEDDINGS=1`
+  (with `sentence-transformers` installed) or a Gemini key is provided.
+- The corpus is a curated demonstration subset; breadth (case law, pharmacopoeia,
+  registry records, plant-variety) is expandable via `corpus/manifest.json`.
+- Live Gemini/Bhashini calls require a one-time spot-check after keys are added
+  (`docs/REAL_API_SETUP.md`).
