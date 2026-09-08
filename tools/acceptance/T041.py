@@ -27,7 +27,24 @@ def main() -> int:
     forged2 = {**good, "claims": [{"text": "x", "source_ids": ["not_a_real_source"]}]}
     assert client.post("/api/export/pdf", json=forged2).status_code == 422
 
-    print("T041 OK: PDF export refuses ungrounded/forged claims; grounded answers export")
+    # forged but self-consistent: a fabricated source cited by the claim must still be
+    # rejected because its id/hash is not in the server's real corpus
+    forged3 = {
+        **good,
+        "claims": [{"text": "A patent is automatically granted.", "source_ids": ["attacker#c0"]}],
+        "sources": [{
+            "id": "attacker#c0", "title": "Fake Act", "section": "1", "url": "http://x",
+            "local_excerpt": "fake", "status": "in_force", "authority": "statute",
+            "effective_date": None, "as_of": good["as_of"], "document_hash": "sha256:deadbeef",
+        }],
+    }
+    assert client.post("/api/export/pdf", json=forged3).status_code == 422
+
+    # real source id but tampered provenance hash must be rejected
+    tampered = {**good, "sources": [{**good["sources"][0], "document_hash": "sha256:tampered"}]}
+    assert client.post("/api/export/pdf", json=tampered).status_code == 422
+
+    print("T041 OK: PDF export authenticates sources vs the corpus and refuses ungrounded/forged claims")
     return 0
 
 

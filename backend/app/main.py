@@ -109,6 +109,8 @@ def build_app(settings: Settings | None = None) -> FastAPI:
 
     app.state.settings = settings
     app.state.corpus_manifest = manifest
+    # canonical evidence fingerprints, used to authenticate client-submitted export payloads
+    app.state.evidence_hashes = {c.id: c.document_hash for c in chunks}
     app.state.providers = {"llm": llm, "embeddings": emb, "translation": translation}
     app.state.answer_service = AnswerService(
         retriever, llm, emb, settings.corpus_version, translation=translation
