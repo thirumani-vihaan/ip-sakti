@@ -177,10 +177,21 @@ class AnswerService:
         claims = [Claim(text=h.text, source_ids=[h.evidence_id]) for h in hits[:3]]
         valid, sources, warnings = validate_claims(claims, hits)
         warnings = warnings + [Warning(code=code, message=message)]
-        # Sensitive mode stays fully local: no external translation call.
         if code != "sensitive_local":
             valid, tr_warnings = self._localize(valid, req.language)
             warnings = warnings + tr_warnings
+        elif req.language and req.language != "en":
+            # Sensitive mode must never call an EXTERNAL translator. The offline glossary is
+            # local, so run it; if Bhashini is configured, keep English and say why.
+            if type(self.translation).__name__ == "OfflineGlossaryTranslation":
+                valid, tr_warnings = self._localize(valid, req.language)
+                warnings = warnings + tr_warnings
+            else:
+                warnings = warnings + [Warning(
+                    code="translation_skipped_sensitive",
+                    message="Sensitive-Invention mode: kept English to avoid sending text to an "
+                            "external translation service.",
+                )]
         warnings = warnings + self._domain_warnings(req.query)
         strength = score_strength(valid, sources, extract_section_refs(req.query))
         if strength == EvidenceStrength.LIMITED:
