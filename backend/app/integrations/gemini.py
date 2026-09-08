@@ -38,6 +38,10 @@ class GeminiLLM:
         text = (getattr(resp, "text", "") or "").strip()
         if not text:
             return []
+        # Model abstains explicitly when the evidence does not answer the question;
+        # returning no claims lets the pipeline fail closed into a clean abstention.
+        if text.upper().startswith("INSUFFICIENT_EVIDENCE"):
+            return []
         allowed = {h.evidence_id for h in evidence}
         return _to_claims(text, allowed)
 
