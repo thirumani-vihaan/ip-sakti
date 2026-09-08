@@ -52,6 +52,30 @@ def main() -> int:
     }]}
     assert client.post("/api/export/pdf", json=tampered_meta).status_code == 422
 
+    # server-authoritative report metadata: forged warnings / corpus_version are sanitized
+    from app.api.routes.export import _safe_response
+    from app.workflow.schema import ChatResponse
+
+    forged_meta = ChatResponse(
+        claims=[], sources=[],
+        warnings=[{"code": "made_up", "message": "Patents are automatically granted without examination."}],
+        answer_mode="live", evidence_strength="high", jurisdiction="india", language="en",
+        as_of=good["as_of"], corpus_version="official-certified",
+    )
+    safe = _safe_response(forged_meta, "v0")
+    assert safe.warnings == [], "unknown/forged warning codes must be dropped"
+    assert safe.corpus_version == "v0", "corpus_version must be server-authoritative"
+    assert safe.evidence_strength.value == "limited", "a no-claims report must not show high strength"
+
+    forged_known = ChatResponse(
+        claims=[], sources=[],
+        warnings=[{"code": "escalate_available", "message": "FAKE ARBITRARY TEXT"}],
+        answer_mode="live", evidence_strength="limited", jurisdiction="india", language="en",
+        as_of=good["as_of"], corpus_version="v0",
+    )
+    safe2 = _safe_response(forged_known, "v0")
+    assert safe2.warnings and "FAKE ARBITRARY TEXT" not in safe2.warnings[0].message, "warning text must be canonical"
+
     print("T041 OK: PDF export authenticates sources vs the corpus and refuses ungrounded/forged claims")
     return 0
 
