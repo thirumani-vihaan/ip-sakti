@@ -19,6 +19,7 @@ describe("controls + compare", () => {
     fireEvent.change(screen.getByPlaceholderText(/Ask about/), { target: { value: "test query" } });
     fireEvent.click(screen.getByText("Ask"));
     expect(api).toHaveBeenCalledWith("test query", { jurisdiction: "international", sensitive: true, language: "en" });
+    await screen.findByTestId("chat-message");
   });
 
   it("CompareTool renders two answers side by side", async () => {

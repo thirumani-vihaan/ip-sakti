@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { postCompare } from "../api/client.js";
 import { ChatMessage } from "./chat.jsx";
+import { Icon } from "./ui.jsx";
 
 export function CompareTool({ submit = (a, b, opts) => postCompare(a, b, opts) }) {
   const [a, setA] = useState("");
@@ -26,8 +27,9 @@ export function CompareTool({ submit = (a, b, opts) => postCompare(a, b, opts) }
   return (
     <div className="compare">
       <div className="grid-2">
-        <div>
-          <input data-testid="cmp-a" value={a} onChange={(e) => setA(e.target.value)} placeholder="Option A" />
+        <div className="compare-option">
+          <div className="option-heading"><span>A</span><h2>The first possibility</h2></div>
+          <label className="field">Your question or strategy<textarea data-testid="cmp-a" value={a} onChange={(e) => setA(e.target.value)} placeholder="Option A" rows={3} maxLength={2000} /></label>
           <label className="field" style={{ marginTop: 8 }}>
             Jurisdiction A
             <select data-testid="cmp-jur-a" value={jurA} onChange={(e) => setJurA(e.target.value)}>
@@ -36,8 +38,9 @@ export function CompareTool({ submit = (a, b, opts) => postCompare(a, b, opts) }
             </select>
           </label>
         </div>
-        <div>
-          <input data-testid="cmp-b" value={b} onChange={(e) => setB(e.target.value)} placeholder="Option B" />
+        <div className="compare-option">
+          <div className="option-heading"><span>B</span><h2>The alternative</h2></div>
+          <label className="field">Your question or strategy<textarea data-testid="cmp-b" value={b} onChange={(e) => setB(e.target.value)} placeholder="Option B" rows={3} maxLength={2000} /></label>
           <label className="field" style={{ marginTop: 8 }}>
             Jurisdiction B
             <select data-testid="cmp-jur-b" value={jurB} onChange={(e) => setJurB(e.target.value)}>
@@ -47,12 +50,13 @@ export function CompareTool({ submit = (a, b, opts) => postCompare(a, b, opts) }
           </label>
         </div>
       </div>
-      <div style={{ marginTop: 12 }}>
-        <button className="btn" data-testid="compare-run" onClick={run} disabled={busy}>
-          {busy ? "Comparing..." : "Compare"}
+      <div className="form-actions">
+        <span><Icon name="shield" />Separate jurisdictions. Separate evidence.</span>
+        <button className="btn btn-accent" data-testid="compare-run" onClick={run} disabled={busy}>
+          {busy ? "Comparing..." : "Compare"}<Icon name="compare" />
         </button>
       </div>
-      {error && <p className="error" style={{ marginTop: 12 }}>{error}</p>}
+      {error && <p className="error" role="alert">{error}</p>}
       {res && (
         <div className="cmp-grid">
           <div>
