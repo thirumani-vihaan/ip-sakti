@@ -5,9 +5,9 @@ import { EscalateModal } from "../components/escalate.jsx";
 
 const HISTORY_KEY = "ipsakti_history_v1";
 const EXAMPLES = [
-  "Can I patent a modified Triphala formulation?",
-  "Do I need NBA approval to sell a herbal extract commercially?",
-  "How do I protect a regional Ayurvedic product name?",
+  "Is a traditional-knowledge Ayurvedic formulation patentable under Section 3(p)?",
+  "Do I need State Biodiversity Board approval to sell a biological resource commercially?",
+  "How do I protect a regional product name with a geographical indication?",
 ];
 
 export default function Chat({ api = postChat }) {
@@ -92,6 +92,11 @@ export default function Chat({ api = postChat }) {
             <option value="auto">Auto-detect</option>
           </select>
         </label>
+        {lang !== "en" && (
+          <span className="muted" style={{ fontSize: 12 }}>
+            Offline: legal terms localised via glossary; full translation needs Bhashini.
+          </span>
+        )}
         <label>
           <input type="checkbox" checked={sensitive} data-testid="sensitive-toggle"
             onChange={(e) => setSensitive(e.target.checked)} />

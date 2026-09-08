@@ -1,20 +1,14 @@
 """BM25 keyword index for exact statute/section/form matching."""
 from __future__ import annotations
 
-import re
 from typing import Optional, Protocol, runtime_checkable
 
 from rank_bm25 import BM25Okapi
 
 from app.retrieval.chunking import Chunk
+from app.retrieval.lexnorm import norm_tokens as _tok
 from app.retrieval.vector_store import chunk_to_source
 from app.workflow.schema import RetrievalHit
-
-_TOKEN_RE = re.compile(r"[a-z0-9]+")
-
-
-def _tok(text: str) -> list[str]:
-    return _TOKEN_RE.findall(text.lower())
 
 
 @runtime_checkable
@@ -34,10 +28,11 @@ class BM25Index:
         self._dirty: bool = False
 
     def add(self, chunks: list[Chunk]) -> None:
-        # accumulate incrementally; defer the (expensive) index build to first search
+        # accumulate incrementally; defer the (expensive) index build to first search.
+        # Title is indexed too so an Act name (e.g. "Patents Act") is matchable.
         for c in chunks:
             self._chunks.append(c)
-            self._tokens.append(_tok(c.text + " " + (c.section or "")))
+            self._tokens.append(_tok(c.title + " " + c.text + " " + (c.section or "")))
         self._dirty = True
 
     def _ensure_built(self) -> None:

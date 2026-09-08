@@ -11,6 +11,7 @@ from app.integrations.provider import (
 from app.models.enums import AnswerMode, EvidenceStrength
 from app.offline.cache import DemoCache
 from app.retrieval.hybrid import HybridRetriever
+from app.retrieval.lexnorm import norm_token
 from app.workflow.abstention import abstention_response
 from app.workflow.citation_validator import validate_claims
 from app.workflow.domain_router import abs_triggered, route
@@ -44,7 +45,12 @@ _WORD_RE = re.compile(r"[a-z0-9]+")
 
 
 def _content_tokens(text: str) -> set[str]:
-    return {t for t in _WORD_RE.findall(text.lower()) if t not in _STOP and len(t) > 1}
+    return {norm_token(t) for t in _WORD_RE.findall(text.lower()) if t not in _STOP and len(t) > 1}
+
+
+def _hit_tokens(hit) -> set[str]:
+    # topical vocabulary of a hit = its passage text PLUS its source title (Act name)
+    return _content_tokens(hit.text) | _content_tokens(hit.source.title)
 
 
 class AnswerService:
@@ -102,6 +108,12 @@ class AnswerService:
             warnings.append(Warning(code="translation_skipped",
                                     message=f"Some text could not be safely translated to '{language}'; "
                                             "showing the original English to preserve legal references."))
+        if type(self.translation).__name__ == "OfflineGlossaryTranslation":
+            warnings.append(Warning(
+                code="offline_translation",
+                message="Offline mode: legal terms are localised via a glossary and statute references are "
+                        "preserved verbatim; full translation into this language requires Bhashini.",
+            ))
         return out, warnings
 
     def answer(self, req: ChatRequest) -> ChatResponse:
@@ -111,10 +123,10 @@ class AnswerService:
         if not hits:
             return abstention_response("out_of_corpus", req, as_of, self.corpus_version)
 
-        # relevance gate: keep only hits that share a content word with the query, and
-        # pass ONLY those to generation, so a wholly-unrelated statute is never cited.
+        # relevance gate: keep only hits that share a content word with the query (checking
+        # the passage AND the Act title), and pass ONLY those to generation.
         q_terms = _content_tokens(req.query)
-        relevant = [h for h in hits if q_terms & _content_tokens(h.text)]
+        relevant = [h for h in hits if q_terms & _hit_tokens(h)]
         if not relevant:
             return abstention_response("out_of_corpus", req, as_of, self.corpus_version)
         hits = relevant

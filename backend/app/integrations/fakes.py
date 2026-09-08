@@ -15,15 +15,27 @@ import math
 import re
 
 from app.integrations.provider import ProviderError
+from app.retrieval.lexnorm import norm_tokens
 from app.workflow.schema import Claim, RetrievalHit
 
 _TOKEN_RE = re.compile(r"[a-z0-9]+")
 _LEGAL_TOKEN_RE = re.compile(r"(Section\s+\d+\([a-z]\)|Form\s+[IVX]+|s\.\s?\d+\([a-z]\)|s\.\s?\d+)", re.I)
 _DIM = 256
+_SENT_RE = re.compile(r"(?<=[.!?])\s+")
 
 
 def _tokens(text: str) -> list[str]:
     return _TOKEN_RE.findall(text.lower())
+
+
+def _best_sentence(query: str, text: str) -> str:
+    """Pick the sentence of `text` with the most query-token overlap, so the fixture
+    answer shows a passage relevant to the question rather than an arbitrary prefix."""
+    qt = set(norm_tokens(query))
+    sentences = [s.strip() for s in _SENT_RE.split(text) if s.strip()]
+    if not sentences:
+        return text.strip()
+    return max(sentences, key=lambda s: len(qt & set(norm_tokens(s))))
 
 
 class FakeLLM:
@@ -41,9 +53,11 @@ class FakeLLM:
             return []
         if self.hallucinate:
             return [Claim(text="Fabricated claim", source_ids=["e999"])]
+        m = re.search(r"Question:\s*(.*)", prompt)
+        query = m.group(1) if m else prompt
         return [
             Claim(
-                text=f"Per {h.source.title} {h.source.section or ''}: {h.text[:60]}".strip(),
+                text=f"Per {h.source.title} {h.source.section or ''}: {_best_sentence(query, h.text)}".strip(),
                 source_ids=[h.evidence_id],
             )
             for h in evidence[:2]
