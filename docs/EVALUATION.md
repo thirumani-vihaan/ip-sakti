@@ -74,6 +74,9 @@ presented as guarantees. Specific scoping we are explicit about:
   the roadmap.
 - **Retrieval is in-memory by default.** `InMemoryVectorStore` backs the demo;
   `ChromaVectorStore` (cosine) is the persistent implementation for scale-up.
+- **PDF export renders server-derived metadata.** Sources are authenticated against the
+  corpus and claims must cite them; client warnings/strength/corpus-version are dropped
+  or recomputed. A per-answer signed provenance token (byte-exact) is a roadmap item.
 
 The corpus is a curated demonstration subset; the same pipeline scales to a larger
 corpus without code changes.
