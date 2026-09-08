@@ -63,18 +63,9 @@ def main() -> int:
         as_of=good["as_of"], corpus_version="official-certified",
     )
     safe = _safe_response(forged_meta, "v0")
-    assert safe.warnings == [], "unknown/forged warning codes must be dropped"
+    assert safe.warnings == [], "client warnings must be dropped from exports"
     assert safe.corpus_version == "v0", "corpus_version must be server-authoritative"
     assert safe.evidence_strength.value == "limited", "a no-claims report must not show high strength"
-
-    forged_known = ChatResponse(
-        claims=[], sources=[],
-        warnings=[{"code": "escalate_available", "message": "FAKE ARBITRARY TEXT"}],
-        answer_mode="live", evidence_strength="limited", jurisdiction="india", language="en",
-        as_of=good["as_of"], corpus_version="v0",
-    )
-    safe2 = _safe_response(forged_known, "v0")
-    assert safe2.warnings and "FAKE ARBITRARY TEXT" not in safe2.warnings[0].message, "warning text must be canonical"
 
     print("T041 OK: PDF export authenticates sources vs the corpus and refuses ungrounded/forged claims")
     return 0
