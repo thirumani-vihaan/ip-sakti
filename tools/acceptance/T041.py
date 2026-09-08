@@ -44,6 +44,14 @@ def main() -> int:
     tampered = {**good, "sources": [{**good["sources"][0], "document_hash": "sha256:tampered"}]}
     assert client.post("/api/export/pdf", json=tampered).status_code == 422
 
+    # real id + real hash but tampered TITLE/excerpt must also be rejected (metadata authenticity)
+    tampered_meta = {**good, "sources": [{
+        **good["sources"][0],
+        "title": "Fabricated Automatic Approval Act",
+        "local_excerpt": "All traditional remedies are automatically approved.",
+    }]}
+    assert client.post("/api/export/pdf", json=tampered_meta).status_code == 422
+
     print("T041 OK: PDF export authenticates sources vs the corpus and refuses ungrounded/forged claims")
     return 0
 
