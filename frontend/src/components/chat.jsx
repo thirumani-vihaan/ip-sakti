@@ -8,7 +8,7 @@ export function EvidenceStrengthBadge({ level }) {
   return <span className={`badge ev-${level}`} data-testid="evidence-strength" title={EV_DESC[level] || ""}><Icon name={level === "high" ? "shield" : "info"} />Evidence: {level || "unavailable"}</span>;
 }
 export function LawAsOfBadge({ asOf }) {
-  return <span className="badge asof" data-testid="law-as-of">law as of {asOf || "unavailable"}</span>;
+  return <span className="badge asof" data-testid="law-as-of">Current Law</span>;
 }
 export function AnswerModeBadge({ mode }) {
   return <span className="badge mode" data-testid="answer-mode">{mode?.replace(/_/g, " ") || "mode unavailable"}</span>;

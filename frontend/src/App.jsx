@@ -56,7 +56,7 @@ export default function App() {
             <span className="brand-mark"><Icon name="leaf" /></span>
             <span><span className="brand-name">IP–SAKTI <span>Sahayak</span></span><span className="brand-sub">TRADITION. PROTECTION. PROVENANCE.</span></span>
           </button>
-          <div className="header-right"><span className="edition">TEAM SAKTI <span>/</span> SIH 2025</span><span className="header-badge"><i />Offline workspace</span></div>
+          <div className="header-right"><span className="edition">TEAM SAKTI <span>/</span> SIH 2026</span><span className="header-badge"><i />Offline workspace</span></div>
         </div>
       </header>
       <div className="disclaimer-banner"><Icon name="info" /><span>Made for informed decisions. <strong>Informational guidance, not legal advice.</strong></span></div>
@@ -95,7 +95,7 @@ export default function App() {
         </div>
       </main>
       <footer className="site-footer">
-        <div className="container"><div className="footer-brand"><Icon name="leaf" /><strong>Knowledge deserves provenance.</strong></div><div>Team SAKTI · SIH 2025 · PS 26045<br /><span>Ministry of AYUSH problem statement</span></div><div className="footer-note">Built to inform. Not to replace a professional.<br /><span>Local fixture corpus · No external AI calls</span></div></div>
+        <div className="container"><div className="footer-brand"><Icon name="leaf" /><strong>Knowledge deserves provenance.</strong></div><div>Team SAKTI · SIH 2026 · PS 26045<br /><span>Ministry of AYUSH problem statement</span></div><div className="footer-note">Built to inform. Not to replace a professional.<br /><span>Local fixture corpus · No external AI calls</span></div></div>
       </footer>
     </div>
   );

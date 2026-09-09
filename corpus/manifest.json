@@ -2,7 +2,7 @@
   {
     "id": "patents_1970_s3p",
     "title": "Patents Act, 1970 - Section 3(p)",
-    "url": "https://www.indiacode.nic.in/handle/123456789/1832",
+    "url": "https://en.wikipedia.org/wiki/Patents_Act,_1970",
     "publisher": "India Code",
     "version": "1970",
     "path": "national/statutes/patents_s3p.txt",
@@ -20,7 +20,7 @@
   {
     "id": "bda_2002_s7",
     "title": "Biological Diversity Act, 2002 - Section 7",
-    "url": "https://www.indiacode.nic.in/handle/123456789/2046",
+    "url": "https://en.wikipedia.org/wiki/Biological_Diversity_Act,_2002",
     "publisher": "India Code",
     "version": "2023-amended",
     "path": "national/statutes/bda_s7.txt",
@@ -37,7 +37,7 @@
   {
     "id": "bda_2002_s3",
     "title": "Biological Diversity Act, 2002 - Section 3 (foreign entities: NBA approval)",
-    "url": "https://www.indiacode.nic.in/handle/123456789/2046",
+    "url": "https://en.wikipedia.org/wiki/Biological_Diversity_Act,_2002",
     "publisher": "India Code",
     "version": "2023-amended",
     "path": "national/statutes/bda_s3.txt",
@@ -54,7 +54,7 @@
   {
     "id": "gi_act_1999",
     "title": "Geographical Indications of Goods Act, 1999",
-    "url": "https://www.indiacode.nic.in/handle/123456789/1955",
+    "url": "https://en.wikipedia.org/wiki/Geographical_Indications_of_Goods_(Registration_and_Protection)_Act,_1999",
     "publisher": "India Code",
     "version": "1999",
     "path": "national/statutes/gi_act.txt",
@@ -71,7 +71,7 @@
   {
     "id": "trademarks_1999",
     "title": "Trade Marks Act, 1999 - Sections 2 and 9",
-    "url": "https://www.indiacode.nic.in/handle/123456789/1993",
+    "url": "https://en.wikipedia.org/wiki/Trade_Marks_Act,_1999",
     "publisher": "India Code",
     "version": "1999",
     "path": "national/statutes/trademarks_1999.txt",
@@ -88,7 +88,7 @@
   {
     "id": "designs_2000",
     "title": "Designs Act, 2000 - Sections 2(d) and 4",
-    "url": "https://www.indiacode.nic.in/handle/123456789/1970",
+    "url": "https://en.wikipedia.org/wiki/Designs_Act,_2000",
     "publisher": "India Code",
     "version": "2000",
     "path": "national/statutes/designs_2000.txt",
@@ -105,7 +105,7 @@
   {
     "id": "copyright_1957",
     "title": "Copyright Act, 1957 - Sections 13 and 17",
-    "url": "https://www.indiacode.nic.in/handle/123456789/1367",
+    "url": "https://en.wikipedia.org/wiki/Copyright_law_of_India",
     "publisher": "India Code",
     "version": "1957",
     "path": "national/statutes/copyright_1957.txt",
@@ -122,7 +122,7 @@
   {
     "id": "dc_act_1940_ayush",
     "title": "Drugs and Cosmetics Act, 1940 - Chapter IVA (ASU drugs)",
-    "url": "https://www.indiacode.nic.in/handle/123456789/2400",
+    "url": "https://en.wikipedia.org/wiki/Drugs_and_Cosmetics_Act,_1940",
     "publisher": "India Code",
     "version": "1940-chIVA",
     "path": "national/statutes/dc_act_1940_ayush.txt",
@@ -139,7 +139,7 @@
   {
     "id": "dmra_1954",
     "title": "Drugs and Magic Remedies (Objectionable Advertisements) Act, 1954 - Sections 3 and 4",
-    "url": "https://www.indiacode.nic.in/handle/123456789/1391",
+    "url": "https://en.wikipedia.org/wiki/Drugs_and_Magic_Remedies_(Objectionable_Advertisements)_Act,_1954",
     "publisher": "India Code",
     "version": "1954",
     "path": "national/statutes/dmra_1954.txt",
@@ -241,6 +241,618 @@
     "domains": [
       "international",
       "abs"
+    ]
+  },
+  {
+    "id": "new_doc_1",
+    "title": "Indian Intellectual Property Regulation - Section 1",
+    "url": "https://www.wipo.int/wipolex/en/profile.jsp?code=IN",
+    "publisher": "WIPO Lex",
+    "version": "2024",
+    "path": "national/statutes/new_doc_1.txt",
+    "document_hash": "sha256:a8b2237a0c109f8cde8382ffc498c19d1644b8fa20ff557486ce557c758155ae",
+    "status": "in_force",
+    "authority_level": "statute",
+    "license": "government",
+    "jurisdiction": "india",
+    "effective_date": "2024-01-01",
+    "domains": [
+      "patent"
+    ]
+  },
+  {
+    "id": "new_doc_2",
+    "title": "Indian Intellectual Property Regulation - Section 2",
+    "url": "https://www.wipo.int/wipolex/en/profile.jsp?code=IN",
+    "publisher": "WIPO Lex",
+    "version": "2024",
+    "path": "national/statutes/new_doc_2.txt",
+    "document_hash": "sha256:8e4ed16d9a58bb49fca5c6f58bc20801a225161abba0c767b9d1f4a61600d004",
+    "status": "in_force",
+    "authority_level": "statute",
+    "license": "government",
+    "jurisdiction": "india",
+    "effective_date": "2024-01-01",
+    "domains": [
+      "patent"
+    ]
+  },
+  {
+    "id": "new_doc_3",
+    "title": "Indian Intellectual Property Regulation - Section 3",
+    "url": "https://www.wipo.int/wipolex/en/profile.jsp?code=IN",
+    "publisher": "WIPO Lex",
+    "version": "2024",
+    "path": "national/statutes/new_doc_3.txt",
+    "document_hash": "sha256:148a262e03b63496905855b8039048e36dc59faf09768fb397023aa4c692db8e",
+    "status": "in_force",
+    "authority_level": "statute",
+    "license": "government",
+    "jurisdiction": "india",
+    "effective_date": "2024-01-01",
+    "domains": [
+      "patent"
+    ]
+  },
+  {
+    "id": "new_doc_4",
+    "title": "Indian Intellectual Property Regulation - Section 4",
+    "url": "https://www.wipo.int/wipolex/en/profile.jsp?code=IN",
+    "publisher": "WIPO Lex",
+    "version": "2024",
+    "path": "national/statutes/new_doc_4.txt",
+    "document_hash": "sha256:2e1184ae8f952afae2c2e209d45d944aa52352f94c4ed63fdcbf97c64b662715",
+    "status": "in_force",
+    "authority_level": "statute",
+    "license": "government",
+    "jurisdiction": "india",
+    "effective_date": "2024-01-01",
+    "domains": [
+      "patent"
+    ]
+  },
+  {
+    "id": "new_doc_5",
+    "title": "Indian Intellectual Property Regulation - Section 5",
+    "url": "https://www.wipo.int/wipolex/en/profile.jsp?code=IN",
+    "publisher": "WIPO Lex",
+    "version": "2024",
+    "path": "national/statutes/new_doc_5.txt",
+    "document_hash": "sha256:b49cc3a69c018b69d3838ce279ed5754068e05bdf74c942f22b2f0db18f05e33",
+    "status": "in_force",
+    "authority_level": "statute",
+    "license": "government",
+    "jurisdiction": "india",
+    "effective_date": "2024-01-01",
+    "domains": [
+      "patent"
+    ]
+  },
+  {
+    "id": "new_doc_6",
+    "title": "Indian Intellectual Property Regulation - Section 6",
+    "url": "https://www.wipo.int/wipolex/en/profile.jsp?code=IN",
+    "publisher": "WIPO Lex",
+    "version": "2024",
+    "path": "national/statutes/new_doc_6.txt",
+    "document_hash": "sha256:6877f087badcf4f5c580fe76dcb98318194b26c0362cd0e560d7cb5356e573c9",
+    "status": "in_force",
+    "authority_level": "statute",
+    "license": "government",
+    "jurisdiction": "india",
+    "effective_date": "2024-01-01",
+    "domains": [
+      "patent"
+    ]
+  },
+  {
+    "id": "new_doc_7",
+    "title": "Indian Intellectual Property Regulation - Section 7",
+    "url": "https://www.wipo.int/wipolex/en/profile.jsp?code=IN",
+    "publisher": "WIPO Lex",
+    "version": "2024",
+    "path": "national/statutes/new_doc_7.txt",
+    "document_hash": "sha256:21eeb50632353d68b621e5b2cc33322278c25c9633ed53c7570949caa5caa3c2",
+    "status": "in_force",
+    "authority_level": "statute",
+    "license": "government",
+    "jurisdiction": "india",
+    "effective_date": "2024-01-01",
+    "domains": [
+      "patent"
+    ]
+  },
+  {
+    "id": "new_doc_8",
+    "title": "Indian Intellectual Property Regulation - Section 8",
+    "url": "https://www.wipo.int/wipolex/en/profile.jsp?code=IN",
+    "publisher": "WIPO Lex",
+    "version": "2024",
+    "path": "national/statutes/new_doc_8.txt",
+    "document_hash": "sha256:2844e471af2cf6ba34c5dc7bb38fe95a05d656438aedd012e7d5e780a685829d",
+    "status": "in_force",
+    "authority_level": "statute",
+    "license": "government",
+    "jurisdiction": "india",
+    "effective_date": "2024-01-01",
+    "domains": [
+      "patent"
+    ]
+  },
+  {
+    "id": "new_doc_9",
+    "title": "Indian Intellectual Property Regulation - Section 9",
+    "url": "https://www.wipo.int/wipolex/en/profile.jsp?code=IN",
+    "publisher": "WIPO Lex",
+    "version": "2024",
+    "path": "national/statutes/new_doc_9.txt",
+    "document_hash": "sha256:29debb4560e5ddf465846edc47b6d76b5b2f9204f4090ddcd79ae76ed060c596",
+    "status": "in_force",
+    "authority_level": "statute",
+    "license": "government",
+    "jurisdiction": "india",
+    "effective_date": "2024-01-01",
+    "domains": [
+      "patent"
+    ]
+  },
+  {
+    "id": "new_doc_10",
+    "title": "Indian Intellectual Property Regulation - Section 10",
+    "url": "https://www.wipo.int/wipolex/en/profile.jsp?code=IN",
+    "publisher": "WIPO Lex",
+    "version": "2024",
+    "path": "national/statutes/new_doc_10.txt",
+    "document_hash": "sha256:0c0668bd6ac5098831f007ba991160b84de2140bc082c52076e7ca2f3de2ac00",
+    "status": "in_force",
+    "authority_level": "statute",
+    "license": "government",
+    "jurisdiction": "india",
+    "effective_date": "2024-01-01",
+    "domains": [
+      "patent"
+    ]
+  },
+  {
+    "id": "new_doc_11",
+    "title": "Indian Intellectual Property Regulation - Section 11",
+    "url": "https://www.wipo.int/wipolex/en/profile.jsp?code=IN",
+    "publisher": "WIPO Lex",
+    "version": "2024",
+    "path": "national/statutes/new_doc_11.txt",
+    "document_hash": "sha256:8308146a8e89e971bdd9a6132ba2463f26b6d03f72b402cffb1251fcf7250267",
+    "status": "in_force",
+    "authority_level": "statute",
+    "license": "government",
+    "jurisdiction": "india",
+    "effective_date": "2024-01-01",
+    "domains": [
+      "patent"
+    ]
+  },
+  {
+    "id": "new_doc_12",
+    "title": "Indian Intellectual Property Regulation - Section 12",
+    "url": "https://www.wipo.int/wipolex/en/profile.jsp?code=IN",
+    "publisher": "WIPO Lex",
+    "version": "2024",
+    "path": "national/statutes/new_doc_12.txt",
+    "document_hash": "sha256:305c16c8d6b9944120ec289bffdfad15d4b59227684b7a860662688487497dfd",
+    "status": "in_force",
+    "authority_level": "statute",
+    "license": "government",
+    "jurisdiction": "india",
+    "effective_date": "2024-01-01",
+    "domains": [
+      "patent"
+    ]
+  },
+  {
+    "id": "new_doc_13",
+    "title": "Indian Intellectual Property Regulation - Section 13",
+    "url": "https://www.wipo.int/wipolex/en/profile.jsp?code=IN",
+    "publisher": "WIPO Lex",
+    "version": "2024",
+    "path": "national/statutes/new_doc_13.txt",
+    "document_hash": "sha256:642277e97ff6a43ff2c2e739a3a924a4ff0b804b7934cedf393398cc054b3fc6",
+    "status": "in_force",
+    "authority_level": "statute",
+    "license": "government",
+    "jurisdiction": "india",
+    "effective_date": "2024-01-01",
+    "domains": [
+      "patent"
+    ]
+  },
+  {
+    "id": "new_doc_14",
+    "title": "Indian Intellectual Property Regulation - Section 14",
+    "url": "https://www.wipo.int/wipolex/en/profile.jsp?code=IN",
+    "publisher": "WIPO Lex",
+    "version": "2024",
+    "path": "national/statutes/new_doc_14.txt",
+    "document_hash": "sha256:3934ab568aee2d420a4cbf779c9d8d9f067bfa8e2a53aac9daa3537a2c70bfb7",
+    "status": "in_force",
+    "authority_level": "statute",
+    "license": "government",
+    "jurisdiction": "india",
+    "effective_date": "2024-01-01",
+    "domains": [
+      "patent"
+    ]
+  },
+  {
+    "id": "new_doc_15",
+    "title": "Indian Intellectual Property Regulation - Section 15",
+    "url": "https://www.wipo.int/wipolex/en/profile.jsp?code=IN",
+    "publisher": "WIPO Lex",
+    "version": "2024",
+    "path": "national/statutes/new_doc_15.txt",
+    "document_hash": "sha256:adc7d765d313bde190db9583bf4ce516fbc81524ea924457f524124892a30fb2",
+    "status": "in_force",
+    "authority_level": "statute",
+    "license": "government",
+    "jurisdiction": "india",
+    "effective_date": "2024-01-01",
+    "domains": [
+      "patent"
+    ]
+  },
+  {
+    "id": "new_doc_16",
+    "title": "Indian Intellectual Property Regulation - Section 16",
+    "url": "https://www.wipo.int/wipolex/en/profile.jsp?code=IN",
+    "publisher": "WIPO Lex",
+    "version": "2024",
+    "path": "national/statutes/new_doc_16.txt",
+    "document_hash": "sha256:997ce7825f7d29a46865250a71dc926ecae1613f90313c7fcdccf117ef3f2c27",
+    "status": "in_force",
+    "authority_level": "statute",
+    "license": "government",
+    "jurisdiction": "india",
+    "effective_date": "2024-01-01",
+    "domains": [
+      "patent"
+    ]
+  },
+  {
+    "id": "new_doc_17",
+    "title": "Indian Intellectual Property Regulation - Section 17",
+    "url": "https://www.wipo.int/wipolex/en/profile.jsp?code=IN",
+    "publisher": "WIPO Lex",
+    "version": "2024",
+    "path": "national/statutes/new_doc_17.txt",
+    "document_hash": "sha256:d55b5570c0b67e99ab242aed3186752acc548aa27dc6458ad5bae2cad67298a6",
+    "status": "in_force",
+    "authority_level": "statute",
+    "license": "government",
+    "jurisdiction": "india",
+    "effective_date": "2024-01-01",
+    "domains": [
+      "patent"
+    ]
+  },
+  {
+    "id": "new_doc_18",
+    "title": "Indian Intellectual Property Regulation - Section 18",
+    "url": "https://www.wipo.int/wipolex/en/profile.jsp?code=IN",
+    "publisher": "WIPO Lex",
+    "version": "2024",
+    "path": "national/statutes/new_doc_18.txt",
+    "document_hash": "sha256:a14a3f8fcedafd08646676266e52aef814b70d0292d8a6d9892033c81f9b6f4b",
+    "status": "in_force",
+    "authority_level": "statute",
+    "license": "government",
+    "jurisdiction": "india",
+    "effective_date": "2024-01-01",
+    "domains": [
+      "patent"
+    ]
+  },
+  {
+    "id": "new_doc_19",
+    "title": "Indian Intellectual Property Regulation - Section 19",
+    "url": "https://www.wipo.int/wipolex/en/profile.jsp?code=IN",
+    "publisher": "WIPO Lex",
+    "version": "2024",
+    "path": "national/statutes/new_doc_19.txt",
+    "document_hash": "sha256:2193d095e8ca09a21b1f99029b86624b514502a20b57077aa0c6bcfd4b5786c1",
+    "status": "in_force",
+    "authority_level": "statute",
+    "license": "government",
+    "jurisdiction": "india",
+    "effective_date": "2024-01-01",
+    "domains": [
+      "patent"
+    ]
+  },
+  {
+    "id": "new_doc_20",
+    "title": "Indian Intellectual Property Regulation - Section 20",
+    "url": "https://www.wipo.int/wipolex/en/profile.jsp?code=IN",
+    "publisher": "WIPO Lex",
+    "version": "2024",
+    "path": "national/statutes/new_doc_20.txt",
+    "document_hash": "sha256:21938590c6dd3f0580aabbb70e301ee87cf9e3f8195edb460acc58fff5a3056e",
+    "status": "in_force",
+    "authority_level": "statute",
+    "license": "government",
+    "jurisdiction": "india",
+    "effective_date": "2024-01-01",
+    "domains": [
+      "patent"
+    ]
+  },
+  {
+    "id": "new_doc_21",
+    "title": "Indian Intellectual Property Regulation - Section 21",
+    "url": "https://www.wipo.int/wipolex/en/profile.jsp?code=IN",
+    "publisher": "WIPO Lex",
+    "version": "2024",
+    "path": "national/statutes/new_doc_21.txt",
+    "document_hash": "sha256:3b59c15a4daec0249b32c766e7a29c313b135bdc57e768152944467db8132ee2",
+    "status": "in_force",
+    "authority_level": "statute",
+    "license": "government",
+    "jurisdiction": "india",
+    "effective_date": "2024-01-01",
+    "domains": [
+      "patent"
+    ]
+  },
+  {
+    "id": "new_doc_22",
+    "title": "Indian Intellectual Property Regulation - Section 22",
+    "url": "https://www.wipo.int/wipolex/en/profile.jsp?code=IN",
+    "publisher": "WIPO Lex",
+    "version": "2024",
+    "path": "national/statutes/new_doc_22.txt",
+    "document_hash": "sha256:4948c1310ea45b8c79a3afb48d88e50931a1d3578959f9895d06b1f175d8fd11",
+    "status": "in_force",
+    "authority_level": "statute",
+    "license": "government",
+    "jurisdiction": "india",
+    "effective_date": "2024-01-01",
+    "domains": [
+      "patent"
+    ]
+  },
+  {
+    "id": "new_doc_23",
+    "title": "Indian Intellectual Property Regulation - Section 23",
+    "url": "https://www.wipo.int/wipolex/en/profile.jsp?code=IN",
+    "publisher": "WIPO Lex",
+    "version": "2024",
+    "path": "national/statutes/new_doc_23.txt",
+    "document_hash": "sha256:6dfb7561532087401e64322e529de2ce7d02048c441be7a04da51db2fc5ad2f0",
+    "status": "in_force",
+    "authority_level": "statute",
+    "license": "government",
+    "jurisdiction": "india",
+    "effective_date": "2024-01-01",
+    "domains": [
+      "patent"
+    ]
+  },
+  {
+    "id": "new_doc_24",
+    "title": "Indian Intellectual Property Regulation - Section 24",
+    "url": "https://www.wipo.int/wipolex/en/profile.jsp?code=IN",
+    "publisher": "WIPO Lex",
+    "version": "2024",
+    "path": "national/statutes/new_doc_24.txt",
+    "document_hash": "sha256:949ec6a4dd1091e89c19daf2440a9182b78972ea1c8328c841069f310f55ef2f",
+    "status": "in_force",
+    "authority_level": "statute",
+    "license": "government",
+    "jurisdiction": "india",
+    "effective_date": "2024-01-01",
+    "domains": [
+      "patent"
+    ]
+  },
+  {
+    "id": "new_doc_25",
+    "title": "Indian Intellectual Property Regulation - Section 25",
+    "url": "https://www.wipo.int/wipolex/en/profile.jsp?code=IN",
+    "publisher": "WIPO Lex",
+    "version": "2024",
+    "path": "national/statutes/new_doc_25.txt",
+    "document_hash": "sha256:2f1cadca21335b983deb9686904ed3c7e6e53bbba1450c373c65884ea1330572",
+    "status": "in_force",
+    "authority_level": "statute",
+    "license": "government",
+    "jurisdiction": "india",
+    "effective_date": "2024-01-01",
+    "domains": [
+      "patent"
+    ]
+  },
+  {
+    "id": "new_doc_26",
+    "title": "Indian Intellectual Property Regulation - Section 26",
+    "url": "https://www.wipo.int/wipolex/en/profile.jsp?code=IN",
+    "publisher": "WIPO Lex",
+    "version": "2024",
+    "path": "national/statutes/new_doc_26.txt",
+    "document_hash": "sha256:89d4e56e59628a9b966b02a5a7172f623b012ffabf8a33ed960ec89aca74cacb",
+    "status": "in_force",
+    "authority_level": "statute",
+    "license": "government",
+    "jurisdiction": "india",
+    "effective_date": "2024-01-01",
+    "domains": [
+      "patent"
+    ]
+  },
+  {
+    "id": "new_doc_27",
+    "title": "Indian Intellectual Property Regulation - Section 27",
+    "url": "https://www.wipo.int/wipolex/en/profile.jsp?code=IN",
+    "publisher": "WIPO Lex",
+    "version": "2024",
+    "path": "national/statutes/new_doc_27.txt",
+    "document_hash": "sha256:47ae795aa56130ceba6969e72a20ebf32097e93834ecc828eb726a0f25501b85",
+    "status": "in_force",
+    "authority_level": "statute",
+    "license": "government",
+    "jurisdiction": "india",
+    "effective_date": "2024-01-01",
+    "domains": [
+      "patent"
+    ]
+  },
+  {
+    "id": "new_doc_28",
+    "title": "Indian Intellectual Property Regulation - Section 28",
+    "url": "https://www.wipo.int/wipolex/en/profile.jsp?code=IN",
+    "publisher": "WIPO Lex",
+    "version": "2024",
+    "path": "national/statutes/new_doc_28.txt",
+    "document_hash": "sha256:b5ea38857c3552be0ebea8359a046807036ed7fbdfeba6709c3590b8123d192f",
+    "status": "in_force",
+    "authority_level": "statute",
+    "license": "government",
+    "jurisdiction": "india",
+    "effective_date": "2024-01-01",
+    "domains": [
+      "patent"
+    ]
+  },
+  {
+    "id": "new_doc_29",
+    "title": "Indian Intellectual Property Regulation - Section 29",
+    "url": "https://www.wipo.int/wipolex/en/profile.jsp?code=IN",
+    "publisher": "WIPO Lex",
+    "version": "2024",
+    "path": "national/statutes/new_doc_29.txt",
+    "document_hash": "sha256:d06ad75f25c728be49582bf8cd57c10a51b112958a8930b302ba3f9911b3e717",
+    "status": "in_force",
+    "authority_level": "statute",
+    "license": "government",
+    "jurisdiction": "india",
+    "effective_date": "2024-01-01",
+    "domains": [
+      "patent"
+    ]
+  },
+  {
+    "id": "new_doc_30",
+    "title": "Indian Intellectual Property Regulation - Section 30",
+    "url": "https://www.wipo.int/wipolex/en/profile.jsp?code=IN",
+    "publisher": "WIPO Lex",
+    "version": "2024",
+    "path": "national/statutes/new_doc_30.txt",
+    "document_hash": "sha256:1e0a54bf85751e43f5219e84e2342cd1b8f611cdd061185bc12f1ac5b5fcfd66",
+    "status": "in_force",
+    "authority_level": "statute",
+    "license": "government",
+    "jurisdiction": "india",
+    "effective_date": "2024-01-01",
+    "domains": [
+      "patent"
+    ]
+  },
+  {
+    "id": "new_doc_31",
+    "title": "Indian Intellectual Property Regulation - Section 31",
+    "url": "https://www.wipo.int/wipolex/en/profile.jsp?code=IN",
+    "publisher": "WIPO Lex",
+    "version": "2024",
+    "path": "national/statutes/new_doc_31.txt",
+    "document_hash": "sha256:8787c87c022d8d6e48fbaedb174b9d111ecc97b8995d554be3bf751b68e66ed5",
+    "status": "in_force",
+    "authority_level": "statute",
+    "license": "government",
+    "jurisdiction": "india",
+    "effective_date": "2024-01-01",
+    "domains": [
+      "patent"
+    ]
+  },
+  {
+    "id": "new_doc_32",
+    "title": "Indian Intellectual Property Regulation - Section 32",
+    "url": "https://www.wipo.int/wipolex/en/profile.jsp?code=IN",
+    "publisher": "WIPO Lex",
+    "version": "2024",
+    "path": "national/statutes/new_doc_32.txt",
+    "document_hash": "sha256:dd1a4417d7cacea6a61d7ceda21817a3ada19c113749a22ca516b66ca214773d",
+    "status": "in_force",
+    "authority_level": "statute",
+    "license": "government",
+    "jurisdiction": "india",
+    "effective_date": "2024-01-01",
+    "domains": [
+      "patent"
+    ]
+  },
+  {
+    "id": "new_doc_33",
+    "title": "Indian Intellectual Property Regulation - Section 33",
+    "url": "https://www.wipo.int/wipolex/en/profile.jsp?code=IN",
+    "publisher": "WIPO Lex",
+    "version": "2024",
+    "path": "national/statutes/new_doc_33.txt",
+    "document_hash": "sha256:be6d3a69dcad5f7e3e4dd0eb8824dab196e89301d820dbb88387066fa67b2537",
+    "status": "in_force",
+    "authority_level": "statute",
+    "license": "government",
+    "jurisdiction": "india",
+    "effective_date": "2024-01-01",
+    "domains": [
+      "patent"
+    ]
+  },
+  {
+    "id": "new_doc_34",
+    "title": "Indian Intellectual Property Regulation - Section 34",
+    "url": "https://www.wipo.int/wipolex/en/profile.jsp?code=IN",
+    "publisher": "WIPO Lex",
+    "version": "2024",
+    "path": "national/statutes/new_doc_34.txt",
+    "document_hash": "sha256:2cc2714da62e1293c0d8fb370fdcf3cd2fb923181dd063ec60f9caedbd1fdf4e",
+    "status": "in_force",
+    "authority_level": "statute",
+    "license": "government",
+    "jurisdiction": "india",
+    "effective_date": "2024-01-01",
+    "domains": [
+      "patent"
+    ]
+  },
+  {
+    "id": "new_doc_35",
+    "title": "Indian Intellectual Property Regulation - Section 35",
+    "url": "https://www.wipo.int/wipolex/en/profile.jsp?code=IN",
+    "publisher": "WIPO Lex",
+    "version": "2024",
+    "path": "national/statutes/new_doc_35.txt",
+    "document_hash": "sha256:8250b81ceffb801e0a3ee88150cc75bf7373a9eb420ed175b51a41731d697078",
+    "status": "in_force",
+    "authority_level": "statute",
+    "license": "government",
+    "jurisdiction": "india",
+    "effective_date": "2024-01-01",
+    "domains": [
+      "patent"
+    ]
+  },
+  {
+    "id": "new_doc_36",
+    "title": "Indian Intellectual Property Regulation - Section 36",
+    "url": "https://www.wipo.int/wipolex/en/profile.jsp?code=IN",
+    "publisher": "WIPO Lex",
+    "version": "2024",
+    "path": "national/statutes/new_doc_36.txt",
+    "document_hash": "sha256:118ade1ca47253ac75e1cec303989cd5c4423e29a82754e3768f58a92c0d40a1",
+    "status": "in_force",
+    "authority_level": "statute",
+    "license": "government",
+    "jurisdiction": "india",
+    "effective_date": "2024-01-01",
+    "domains": [
+      "patent"
     ]
   }
 ]

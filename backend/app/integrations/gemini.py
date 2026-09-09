@@ -18,7 +18,7 @@ _CITE_RE = re.compile(r"\[([^\]]+)\]")
 
 
 class GeminiLLM:
-    def __init__(self, api_key: str, model: str = "gemini-flash-latest"):
+    def __init__(self, api_key: str, model: str = "gemini-3.5-flash-lite"):
         self.api_key = api_key
         self.model = model
         self._client = None

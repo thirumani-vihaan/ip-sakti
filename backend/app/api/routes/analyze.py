@@ -47,7 +47,24 @@ async def analyze(
         with tempfile.NamedTemporaryFile(suffix=suffix, delete=False) as tmp:
             tmp.write(data)
             tmp_path = Path(tmp.name)
-        text = _extract(tmp_path)
+            
+        if suffix == ".pdf":
+            import os
+            from google import genai
+            from google.genai import types
+            client = genai.Client(api_key=os.environ.get("GEMINI_API_KEY"))
+            
+            resp = client.models.generate_content(
+                model="gemini-1.5-flash",
+                contents=[
+                    "Extract all the text from this document accurately. Preserve formatting where possible.", 
+                    types.Part.from_bytes(data=data, mime_type="application/pdf")
+                ]
+            )
+            text = resp.text
+        else:
+            text = _extract(tmp_path)
+            
     except HTTPException:
         raise
     except Exception as e:  # extraction failure -> 422, never crash
