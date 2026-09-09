@@ -45,6 +45,54 @@ class GeminiLLM:
         allowed = {h.evidence_id for h in evidence}
         return _to_claims(text, allowed)
 
+    def generate_next_steps(self, query: str, claims: list[Claim]) -> list['NextStep']:
+        from app.workflow.schema import NextStep
+        import json
+        if not claims:
+            return []
+            
+        prompt = (
+            f"Based on the following query and legal advice, provide 1 to 2 highly actionable next steps for the user.\n\n"
+            f"Query: {query}\n"
+            f"Advice:\n" + "\n".join(f"- {c.text}" for c in claims) + "\n\n"
+            "Return the output as a clean JSON array of objects. Do not include markdown blocks or any other text.\n"
+            "Each object MUST have the following string fields:\n"
+            "- 'label': A short, actionable title (e.g. 'Register Patent').\n"
+            "- 'description': A one-sentence explanation.\n"
+            "- 'url': A link to an official Indian portal (e.g. 'https://ipindia.gov.in'). If not applicable, use '#'."
+        )
+        
+        try:
+            client = self._get_client()
+            resp = client.models.generate_content(model=self.model, contents=prompt)
+            text = (getattr(resp, "text", "") or "").strip()
+            # strip possible markdown json block
+            if text.startswith("```json"):
+                text = text[7:]
+            elif text.startswith("```"):
+                text = text[3:]
+            if text.endswith("```"):
+                text = text[:-3]
+            text = text.strip()
+            
+            data = json.loads(text)
+            if not isinstance(data, list):
+                return []
+                
+            steps = []
+            for item in data[:2]:  # max 2 steps
+                steps.append(NextStep(
+                    label=str(item.get("label", "Next Step")),
+                    description=str(item.get("description", "")),
+                    url=str(item.get("url", "#"))
+                ))
+            return steps
+        except Exception as e:
+            import traceback
+            traceback.print_exc()
+            # next steps are progressive enhancement; swallow errors to not fail the main answer
+            return []
+
 
 class GeminiEmbeddings:
     def __init__(self, api_key: str, model: str = "gemini-embedding-001"):

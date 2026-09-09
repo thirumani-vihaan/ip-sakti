@@ -156,8 +156,13 @@ class AnswerService:
         strength = score_strength(valid, sources, extract_section_refs(req.query))
         if strength == EvidenceStrength.LIMITED:
             warnings = warnings + [escalation_warning()]
+            
+        next_steps = []
+        if valid and not req.sensitive:
+            next_steps = self.llm.generate_next_steps(req.query, valid)
+            
         return ChatResponse(
-            claims=valid, sources=sources, warnings=warnings,
+            claims=valid, sources=sources, warnings=warnings, next_steps=next_steps,
             answer_mode=AnswerMode.LIVE, evidence_strength=strength,
             jurisdiction=req.jurisdiction, language=req.language,
             as_of=as_of, corpus_version=self.corpus_version,
@@ -196,8 +201,16 @@ class AnswerService:
         strength = score_strength(valid, sources, extract_section_refs(req.query))
         if strength == EvidenceStrength.LIMITED:
             warnings = warnings + [escalation_warning()]
+            
+        next_steps = []
+        if valid:
+            try:
+                next_steps = self.llm.generate_next_steps("Document Analysis", valid)
+            except Exception:
+                pass
+                
         return ChatResponse(
-            claims=valid, sources=sources, warnings=warnings,
+            claims=valid, sources=sources, warnings=warnings, next_steps=next_steps,
             answer_mode=AnswerMode.EXTRACTIVE, evidence_strength=strength,
             jurisdiction=req.jurisdiction, language=req.language,
             as_of=as_of, corpus_version=self.corpus_version,

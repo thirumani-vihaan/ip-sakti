@@ -53,6 +53,10 @@ class LLMProvider(Protocol):
         """Return atomic claims citing ONLY evidence_ids from `evidence`. Never invents ids."""
         ...
 
+    def generate_next_steps(self, query: str, claims: list[Claim]) -> list['NextStep']:
+        """Generate actionable next steps based on the context and validated claims."""
+        ...
+
 
 @runtime_checkable
 class EmbeddingProvider(Protocol):

@@ -55,7 +55,7 @@ async def analyze(
             client = genai.Client(api_key=os.environ.get("GEMINI_API_KEY"))
             
             resp = client.models.generate_content(
-                model="gemini-1.5-flash",
+                model="gemini-3.5-flash-lite",
                 contents=[
                     "Extract all the text from this document accurately. Preserve formatting where possible.", 
                     types.Part.from_bytes(data=data, mime_type="application/pdf")
@@ -78,9 +78,9 @@ async def analyze(
         raise HTTPException(status_code=422, detail="no readable text found in document")
 
     svc = request.app.state.answer_service
-    # Sensitive by default: an uploaded document is processed locally (no external LLM),
-    # so its contents are never sent to a third-party provider even when keys are set.
-    analysis = svc.answer(ChatRequest(query=clean[:2000], jurisdiction=jurisdiction, sensitive=True))
+    # Hackathon Demo: Use the full LLM pipeline (sensitive=False) so it follows 
+    # the exact same relaxed generation rules as the chat assistant.
+    analysis = svc.answer(ChatRequest(query=clean[:2000], jurisdiction=jurisdiction, sensitive=False))
     return AnalyzeResponse(
         filename=file.filename or "upload",
         extracted_preview=clean[:400],

@@ -55,6 +55,11 @@ class RuleResult(BaseModel):
     missing: list[str] = Field(default_factory=list)
 
 
+class NextStep(BaseModel):
+    label: str
+    description: str
+    url: str
+
 class Warning(BaseModel):
     code: str
     message: str
@@ -72,6 +77,7 @@ class ChatResponse(BaseModel):
     claims: list[Claim] = Field(default_factory=list)
     sources: list[Source] = Field(default_factory=list)
     warnings: list[Warning] = Field(default_factory=list)
+    next_steps: list[NextStep] = Field(default_factory=list)
     answer_mode: AnswerMode = AnswerMode.LIVE
     evidence_strength: EvidenceStrength = EvidenceStrength.LIMITED
     jurisdiction: Jurisdiction = Jurisdiction.INDIA

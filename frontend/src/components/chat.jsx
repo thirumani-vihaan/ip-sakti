@@ -36,6 +36,26 @@ export function ChatMessage({ response, onEscalate, onExport }) {
       {claims.length ? <div className="claims">{claims.map((claim, i) => <section className="claim" key={i}><div className="claim-index"><span>{String(i + 1).padStart(2, "0")}</span><span>CITED CLAIM</span></div><p lang={response.language === "auto" ? undefined : response.language}>{claim.text}</p><div className="citation-thread"><span className="thread-label"><Icon name="book" />SUPPORTED BY</span><div className="citation-chips">{claim.source_ids.map((sid) => <button key={sid} className="cite" data-testid={`cite-${sid}`} onClick={() => setOpen(byId[sid])} title={`Read exact passage: ${byId[sid].title}`}><span>{byId[sid].title}</span><Icon name="arrow" /></button>)}</div></div></section>)}</div> : <AbstentionNotice warnings={warnings} />}
       {claims.length > 0 && warnings.length > 0 && <div className="answer-warnings">{warnings.map((w, i) => <p key={i}><Icon name="info" /><span>{w.message}</span></p>)}</div>}
       {!claims.length && escalate && onEscalate && <div className="escalate-cta"><div><strong>A human can help with the next step.</strong><p>Prepare a referral to an IP facilitator.</p></div><button className="btn btn-accent btn-sm" onClick={onEscalate}>Escalate to a facilitator<Icon name="arrow" /></button></div>}
+      
+      {response.next_steps && response.next_steps.length > 0 && (
+        <div className="next-steps" style={{ marginTop: '2rem', padding: '1.5rem', background: 'var(--c-bg-subtle)', borderRadius: '12px', border: '1px solid var(--c-border)' }}>
+          <div className="eyebrow" style={{ marginBottom: '1rem' }}><Icon name="spark" /> ACTIONABLE NEXT STEPS</div>
+          <div className="next-steps-grid" style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+            {response.next_steps.map((ns, i) => (
+              <div key={i} className="next-step-card" style={{ flex: 1, minWidth: '250px', background: 'var(--c-bg)', padding: '1rem', borderRadius: '8px', border: '1px solid var(--c-border)', display: 'flex', flexDirection: 'column' }}>
+                <h4 style={{ margin: '0 0 0.5rem 0', color: 'var(--c-text)' }}>{ns.label}</h4>
+                <p style={{ margin: '0 0 1rem 0', fontSize: '0.9rem', color: 'var(--c-text-muted)', flex: 1 }}>{ns.description}</p>
+                {ns.url && ns.url !== "#" && (
+                  <a href={ns.url} target="_blank" rel="noreferrer" className="btn btn-accent btn-sm" style={{ width: '100%', justifyContent: 'center' }}>
+                    Proceed <Icon name="external" />
+                  </a>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
       <div className="answer-note"><Icon name="shield" />{DISCLAIMER}</div>
       <div className="msg-actions">{onExport && claims.length > 0 && <button className="btn btn-ghost btn-sm" onClick={() => onExport(missingCitations ? { ...response, claims, warnings } : response)}><Icon name="download" />Download PDF</button>}{claims.length > 0 && escalate && onEscalate && <button className="btn btn-accent btn-sm" onClick={onEscalate}>Escalate to a facilitator<Icon name="arrow" /></button>}<span className="corpus-note">Corpus {response.corpus_version || "unavailable"}</span></div>
       <SourceDrawer source={open} onClose={() => setOpen(null)} />
