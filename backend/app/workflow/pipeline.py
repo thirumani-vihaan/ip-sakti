@@ -147,7 +147,7 @@ class AnswerService:
             self.breaker.record_failure()
             return self._fallback(req, hits, as_of)
 
-        valid, sources, warnings = validate_claims(claims, hits)
+        valid, sources, warnings = validate_claims(claims, hits, allow_external=True)
         if not valid:
             return abstention_response("unsupported", req, as_of, self.corpus_version, warnings)
 

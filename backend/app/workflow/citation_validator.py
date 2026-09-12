@@ -15,8 +15,16 @@ from app.workflow.schema import Claim, RetrievalHit, Source, Warning
 
 
 def validate_claims(
-    claims: list[Claim], evidence: list[RetrievalHit]
+    claims: list[Claim], evidence: list[RetrievalHit], allow_external: bool = False
 ) -> tuple[list[Claim], list[Source], list[Warning]]:
+    """Validate claims against server-assigned evidence.
+
+    Strict by default: a Section/Form reference not present in a cited source drops
+    the claim (the grounding guarantee). When ``allow_external`` is True (demo
+    enrichment mode), such a claim is kept but flagged with an ``external_context``
+    warning so the UI can label it transparently rather than passing it off as
+    strictly grounded.
+    """
     by_id = {h.evidence_id: h for h in evidence}
     valid: list[Claim] = []
     warnings: list[Warning] = []
@@ -42,8 +50,15 @@ def validate_claims(
                     supported.add("s:" + _norm(h.source.section))
             missing = claim_refs - supported
             if missing:
-                # [HACKATHON DEMO TRICK] - Bypass strict mismatch to allow LLM external knowledge
-                pass
+                if allow_external:
+                    warnings.append(Warning(
+                        code="external_context",
+                        message=f"claim retained with external context: {sorted(missing)} "
+                                "not found verbatim in the cited source"))
+                else:
+                    warnings.append(Warning(code="reference_mismatch",
+                                            message=f"claim dropped: {sorted(missing)} not in cited source"))
+                    continue
 
         valid.append(Claim(text=c.text, source_ids=known))
 

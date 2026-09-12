@@ -14,6 +14,8 @@ def main() -> int:
 
     client = TestClient(build_app(Settings()))
 
+    baseline_count = client.get("/api/sources").json()["count"]
+
     content = (
         b"Our product is a traditional knowledge based Ayurvedic formulation. "
         b"We want to know if it is patentable under Section 3(p) of the Patents Act."
@@ -32,7 +34,7 @@ def main() -> int:
     assert client.post("/api/analyze", files={"file": ("x.exe", b"MZ", "application/octet-stream")}).status_code == 415
 
     # EPHEMERAL: the upload must NOT be added to the knowledge base
-    assert client.get("/api/sources").json()["count"] == 14, "upload must not pollute the corpus"
+    assert client.get("/api/sources").json()["count"] == baseline_count, "upload must not pollute the corpus"
 
     print("T031 OK: /api/analyze grounds uploaded doc against corpus; ephemeral; type-checked")
     return 0

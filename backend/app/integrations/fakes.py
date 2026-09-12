@@ -63,6 +63,10 @@ class FakeLLM:
             for h in evidence[:2]
         ]
 
+    def generate_next_steps(self, query: str, claims):
+        """Offline fixture: deterministic, side-effect-free. No live 'next steps' generation."""
+        return []
+
 
 class FakeEmbeddings:
     def __init__(self, dim: int = _DIM):
